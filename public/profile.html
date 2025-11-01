@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRX - Profile</title>
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f5;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  --border-color: #e2e8f0;
+  --accent-primary: #6366f1;
+  --accent-secondary: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --border-color: #334155;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background 0.3s, color 0.3s;
+  line-height: 1.6;
+  padding-bottom: 80px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle, .back-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.theme-toggle:hover, .back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.theme-toggle svg, .back-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--text-secondary);
+  transition: stroke 0.3s;
+}
+
+/* Profile Hero */
+.profile-hero {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  padding: 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(50px, 50px) rotate(180deg); }
+}
+
+.profile-hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.avatar-wrapper {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  border: 4px solid rgba(255,255,255,0.3);
+  animation: avatarPulse 2s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.profile-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.profile-email {
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 20px;
+}
+
+.profile-badges {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background: rgba(255,255,255,0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Stats Grid */
+.stats-section {
+  margin: -40px 0 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid var(--border-color);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.stat-title {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: #fff;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.stat-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Animated Counter Section */
+.counter-section {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 32px 24px;
+  margin-bottom: 32px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  text-align: center;
+}
+
+.counter-item {
+  padding: 20px 16px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+}
+
+.counter-value {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.counter-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Section */
+.section {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #fff;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 14px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: all 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background: var(--bg-primary);
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #fff;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* About Us Expandable */
+.about-card {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.about-header {
+  padding: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.about-header:hover {
+  background: var(--bg-secondary);
+}
+
+.about-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.about-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: #fff;
+}
+
+.expand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.about-card.active .expand-icon {
+  transform: rotate(180deg);
+}
+
+.expand-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--text-secondary);
+}
+
+.about-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.about-content-inner {
+  padding: 0 24px 24px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.about-content-inner p {
+  margin-bottom: 16px;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.feature-item {
+  background: var(--bg-secondary);
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feature-icon {
+  font-size: 24px;
+}
+
+.feature-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Support Card */
+.support-card {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 16px;
+  padding: 32px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.support-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  animation: float 15s ease-in-out infinite;
+}
+
+.support-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+}
+
+.support-icon-wrapper svg {
+  width: 32px;
+  height: 32px;
+  stroke: #fff;
+}
+
+.support-card h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.support-card p {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-methods {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-btn {
+  flex: 1;
+  background: rgba(255,255,255,0.2);
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.contact-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+.contact-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: #fff;
+}
+
+/* FAQ Accordion */
+.faq-accordion {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  margin-bottom: 24px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  padding: 20px 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.faq-question:hover {
+  background: var(--bg-secondary);
+}
+
+.faq-question h4 {
+  font-size: 15px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.faq-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+  background: var(--accent-primary);
+}
+
+.faq-item.active .faq-icon svg {
+  stroke: #fff;
+}
+
+.faq-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-secondary);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer-content {
+  padding: 0 24px 20px 24px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Logout Button */
+.logout-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 2px solid #fee2e2;
+  color: #dc2626;
+  padding: 14px 40px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: #dc2626;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s;
+}
+
+.logout-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.logout-btn:hover {
+  border-color: #dc2626;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+.logout-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Desktop Sidebar */
+.desktop-sidebar {
+  display: none;
+}
+
+/* Bottom Nav - Mobile */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: var(--text-tertiary);
+  transition: all 0.2s;
+  padding: 4px 8px;
+  flex: 1;
+  max-width: 70px;
+}
+
+.nav-item.active {
+  color: var(--accent-primary);
+}
+
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+}
+
+.nav-item span {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+@media (min-width: 769px) {
+  .desktop-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border-color);
+    padding: 24px 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 24px;
+  }
+
+  .sidebar-logo-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sidebar-logo .logo {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .sidebar-logo .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sidebar-logo .brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 0 16px;
+  }
+
+  .sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    width: 100%;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+
+  .sidebar-nav-item:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateX(4px);
+  }
+
+  .sidebar-nav-item.active {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .sidebar-nav-item svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    flex-shrink: 0;
+  }
+
+  .sidebar-footer {
+    padding: 24px 16px 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: 24px;
+  }
+
+  .main-content-area {
+    margin-left: 280px;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+}
+
+/* Skeleton Loading */
+.skeleton {
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-tertiary) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-hero {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  padding: 48px 0;
+  text-align: center;
+}
+
+.skeleton-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  background: rgba(255,255,255,0.2);
+}
+
+.skeleton-text {
+  height: 20px;
+  margin: 10px auto;
+  max-width: 200px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+}
+
+.skeleton-card {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.skeleton-header {
+  height: 16px;
+  width: 40%;
+  margin-bottom: 20px;
+}
+
+.skeleton-value {
+  height: 36px;
+  width: 50%;
+  margin-bottom: 12px;
+}
+
+.skeleton-subtitle {
+  height: 14px;
+  width: 60%;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .counter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .contact-methods {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 769px) {
+  body {
+    padding-bottom: 0;
+  }
+  
+  .profile-hero {
+    padding: 64px 0;
+  }
+  
+  .avatar-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 48px;
+  }
+  
+  .profile-name {
+    font-size: 32px;
+  }
+  
+  .stats-section {
+    margin: -60px 0 48px;
+  }
+  
+  .section {
+    padding: 32px;
+  }
+  
+  .bottom-nav {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Desktop Sidebar -->
+<div class="desktop-sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-content">
+      <div class="logo">
+        <img src="../images/earn.jpeg" alt="CRX Logo" id="sidebarLogoImg">
+      </div>
+      <div class="brand-name">CRX</div>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <button class="sidebar-nav-item" onclick="window.location.href='dashboard.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span>Home</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='plan.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+      </svg>
+      <span>Plans</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='task.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+      </svg>
+      <span>Tasks</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='withdraw.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+      </svg>
+      <span>Withdraw</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='referral.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+      </svg>
+      <span>Referral</span>
+    </button>
+    <button class="sidebar-nav-item active">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+      <span>Profile</span>
+    </button>
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="sidebar-nav-item" onclick="window.location.href='support.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+      </svg>
+      <span>Support</span>
+    </button>
+  </div>
+</div>
+
+<div class="main-content-area">
+
+<!-- Header -->
+<div class="header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo-section">
+        <div class="logo">
+          <img src="../images/earn.jpeg" alt="CRX Logo" id="logoImg">
+        </div>
+        <div class="brand-name">CRX</div>
+      </div>
+
+      <div class="header-actions">
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </button>
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Skeleton -->
+<div id="loadingSkeleton">
+  <div class="skeleton-hero">
+    <div class="container">
+      <div class="skeleton skeleton-avatar"></div>
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text" style="max-width: 150px;"></div>
+    </div>
+  </div>
+  
+  <div class="container" style="margin-top: -40px;">
+    <div class="stats-grid">
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-header"></div>
+        <div class="skeleton skeleton-value"></div>
+        <div class="skeleton skeleton-subtitle"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-header"></div>
+        <div class="skeleton skeleton-value"></div>
+        <div class="skeleton skeleton-subtitle"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-header"></div>
+        <div class="skeleton skeleton-value"></div>
+        <div class="skeleton skeleton-subtitle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent" class="hidden">
+  <!-- Profile Hero -->
+  <div class="profile-hero">
+    <div class="container">
+      <div class="profile-hero-content">
+        <div class="avatar-wrapper">
+          <div class="avatar" id="avatar">U</div>
+        </div>
+        <div class="profile-name" id="profileName">Loading...</div>
+        <div class="profile-email" id="profileEmail">loading@example.com</div>
+        <div class="profile-badges">
+          <div class="badge">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Verified User
+          </div>
+          <div class="badge" id="memberBadge">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Member since 2024
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Stats Grid -->
+    <div class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card" onclick="window.location.href='withdraw.html'">
+          <div class="stat-header">
+            <div class="stat-title">Wallet Balance</div>
+            <div class="stat-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="stat-value">$<span id="walletBalance">0.00</span></div>
+          <div class="stat-subtitle">Available for withdrawal</div>
+        </div>
+
+        <div class="stat-card" onclick="window.location.href='referral.html'">
+          <div class="stat-header">
+            <div class="stat-title">Referral Code</div>
+            <div class="stat-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="stat-value" id="referralCode" style="font-size: 24px;">---</div>
+          <div class="stat-subtitle">Share to earn rewards</div>
+        </div>
+
+        <div class="stat-card" onclick="window.location.href='referral.html'">
+          <div class="stat-header">
+            <div class="stat-title">Total Referrals</div>
+            <div class="stat-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="stat-value" id="totalReferrals">0</div>
+          <div class="stat-subtitle">Friends invited</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Counter Section -->
+    <div class="counter-section">
+      <div class="counter-grid">
+        <div class="counter-item">
+          <div class="counter-value"><span id="counterUsers">0</span>K+</div>
+          <div class="counter-label">Active Users Worldwide</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-value">$<span id="counterWithdrawals">0</span>K+</div>
+          <div class="counter-label">Total Withdrawals</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-value"><span id="counterCountries">0</span>+</div>
+          <div class="counter-label">Countries Served</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Plan Section -->
+    <div class="section" id="planSection">
+      <div class="section-title">
+        <div class="section-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+        </div>
+        <span>Active Plan</span>
+      </div>
+      <div id="planDetails">
+        <p style="color: var(--text-secondary); text-align: center; padding: 20px;">No active plan. Purchase a plan to start earning!</p>
+      </div>
+    </div>
+
+    <!-- Update Profile Section -->
+    <div class="section">
+      <div class="section-title">
+        <div class="section-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+        </div>
+        <span>Update Profile</span>
+      </div>
+      <form id="updateProfileForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="updateName" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="updateEmail" placeholder="Enter your email" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+      </form>
+    </div>
+
+    <!-- Change Password Section -->
+    <div class="section">
+      <div class="section-title">
+        <div class="section-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+          </svg>
+        </div>
+        <span>Change Password</span>
+      </div>
+      <form id="changePasswordForm">
+        <div class="form-group">
+          <label>Current Password</label>
+          <input type="password" id="oldPassword" placeholder="Enter current password" required>
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" id="newPassword" placeholder="Enter new password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Change Password</button>
+      </form>
+    </div>
+
+    <!-- About Us Expandable -->
+<div class="about-card" id="aboutCard">
+  <div class="about-header" onclick="toggleAbout()">
+    <div class="about-title">
+      <div class="about-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      About Us
+    </div>
+    <div class="expand-icon">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="about-content">
+    <div class="about-content-inner">
+      <p><strong>A CRX</strong> isn’t just a website — it’s a global movement toward smarter, simpler, and more rewarding digital investments. Founded by <strong>Isabella Mandis</strong>, the visionary Harvard entrepreneur behind <em>Girls Into VC</em>, A CRX stands for <strong>trust, innovation, and opportunity.</strong></p>
+
+      <p>This next-generation platform merges the power of <strong>ad-watching</strong> and <strong>website-based investment</strong>, allowing users to earn, learn, and grow financially — all within one transparent ecosystem.</p>
+
+      <p><strong>A CRX</strong> brings together global investors and digital creators in a secure, authentic, and verified environment. Every feature is designed with clarity, simplicity, and confidence in mind — because your time and trust truly matter.</p>
+
+      <p>Thousands have already joined from over <strong>60 countries</strong>, calling A CRX <em>“the most trusted and innovative platform of 2025.”</em> From students to professionals, every member finds value, learning, and growth opportunities here.</p>
+
+      <p>At A CRX, <strong>transparency is everything.</strong> The system uses advanced verification tools to ensure <strong>real users, real earnings, and real results</strong> — making digital earning meaningful, sustainable, and future-ready.</p>
+
+      <p>With its elegant interface, easy navigation, and global community, A CRX is redefining what it means to earn online — <strong>simple, safe, and scalable.</strong> Every success story here sparks another, fueling a revolution that merges <em>technology, trust, and financial growth.</em></p>
+
+      <p style="margin-top: 18px;"><strong>🌍 Join A CRX today</strong> — where <em>trust meets technology</em> and <strong>dreams turn into success!</strong></p>
+    </div>
+  </div>
+</div><!-- Support Card -->
+<div class="support-card">
+  <div class="support-icon-wrapper">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+</path>
+
+    </svg>
+  </div>
+
+  <h3>Need Help?</h3>
+  <p>Our support team is available 24/7 to assist you with any questions or concerns</p>
+
+  <div class="contact-methods">
+    <!-- WhatsApp Button -->
+    <button class="contact-btn"
+      onclick="window.open('https://wa.me/923233294217?text=Hello%20Support%20Team%2C%20I%20need%20help%20with%20my%20account.', '_blank')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+        </path>
+      </svg>
+      WhatsApp
+    </button>
+
+    <!-- Email Button -->
+    <button class="contact-btn"
+      onclick="window.location.href='mailto:isabellamandiscrx@gmail.com'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+        </path>
+      </svg>
+      Email
+    </button>
+
+    <!-- Live Chat Button -->
+    <button class="contact-btn"
+      onclick="window.location.href='support.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M3 19v-6a9 9 0 0118 0v6a2 2 0 01-2 2h-3l-2 2-2-2H5a2 2 0 01-2-2z" />
+      </svg>
+      Live Chat
+    </button>
+  </div>
+</div>
+
+
+    <!-- FAQ Section -->
+    <div class="section">
+      <div class="section-title">
+        <div class="section-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <span>Frequently Asked Questions</span>
+      </div>
+    </div>
+
+    <div class="faq-accordion">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>🌍 Is CRX Earning available worldwide?</h4>
+          <div class="faq-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            Yes! CRX Earning is a global platform serving users in over 50+ countries. We support multiple payment methods and currencies to ensure everyone can participate regardless of their location.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>💰 How do I withdraw my earnings?</h4>
+          <div class="faq-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            Once your wallet balance reaches the minimum withdrawal limit, go to the Withdraw page, submit your request with your payment details, and our team will process it within 12-24 hours.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>⏱️ How long does plan activation take?</h4>
+          <div class="faq-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            After uploading your payment proof, our admin team reviews and activates your plan within 24 hours (usually much sooner). You'll receive a notification once your plan is active.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>🎁 How does the referral program work?</h4>
+          <div class="faq-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            Share your unique referral code with friends. When they register and activate a plan, you earn 1 referral count. For every 3 successful referrals, you can claim a $1 bonus from your referral dashboard. Also We have Multiple Level with Huge prize
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>🔒 Is my data and money safe?</h4>
+          <div class="faq-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            Absolutely! We use industry-standard encryption and security measures to protect your data and transactions. With over 100,000+ satisfied users and $200K+ in successful withdrawals, we've built a trusted platform.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logout Section -->
+    <div class="logout-section">
+      <button class="logout-btn" onclick="logout()">
+        <span>Logout from Account</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <div class="nav-item" onclick="window.location.href='dashboard.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+    </svg>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='plan.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+    </svg>
+    <span>Plans</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='task.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+    </svg>
+    <span>Tasks</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='referral.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+    <span>Referral</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='withdraw.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+    <span>Withdraw</span>
+  </div>
+
+  <div class="nav-item active">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+    </svg>
+    <span>Profile</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Theme Toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  const icon = document.getElementById('themeIcon');
+  if (newTheme === 'dark') {
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+  } else {
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+  }
+}
+
+// Initialize theme
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+if (savedTheme === 'dark') {
+  const icon = document.getElementById('themeIcon');
+  icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+}
+
+// Toggle About Section
+function toggleAbout() {
+  const card = document.getElementById('aboutCard');
+  const content = card.querySelector('.about-content');
+  const isActive = card.classList.contains('active');
+  
+  if (isActive) {
+    card.classList.remove('active');
+    content.style.maxHeight = '0';
+  } else {
+    card.classList.add('active');
+    content.style.maxHeight = content.scrollHeight + 'px';
+  }
+}
+
+// Toggle FAQ
+function toggleFaq(element) {
+  const item = element.parentElement;
+  const answer = item.querySelector('.faq-answer');
+  const isActive = item.classList.contains('active');
+  
+  // Close all other FAQs
+  document.querySelectorAll('.faq-item').forEach(faq => {
+    faq.classList.remove('active');
+    faq.querySelector('.faq-answer').style.maxHeight = '0';
+  });
+  
+  // Toggle current FAQ
+  if (!isActive) {
+    item.classList.add('active');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
+
+// Animated Counter
+function animateCounter(id, target, suffix = '') {
+  let current = 0;
+  const increment = target / 100;
+  const element = document.getElementById(id);
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      element.textContent = Math.floor(target);
+      clearInterval(timer);
+    } else {
+      element.textContent = Math.floor(current);
+    }
+  }, 20);
+}
+
+// Get Token
+function getToken() {
+  return sessionStorage.getItem('token') || localStorage.getItem('token');
+}
+
+// Logout
+function logout() {
+  if (confirm('Are you sure you want to logout?')) {
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
+    window.location.href = 'login.html';
+  }
+}
+
+// ✅ CHANGE #1: Load Profile API
+async function loadProfile() {
+  const token = getToken();
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  try {
+    const res = await fetch('https://crx-auth.onrender.com/api/auth/dashboard', {  // 👈 CHANGED
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    if (res.status === 401) {
+      logout();
+      return;
+    }
+
+    const data = await res.json();
+
+    // Hide skeleton, show content
+    setTimeout(() => {
+      document.getElementById('loadingSkeleton').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+
+      // Animate counters
+      animateCounter('counterUsers', 100);
+      animateCounter('counterWithdrawals', 200);
+      animateCounter('counterCountries', 50);
+    }, 1500);
+
+    // Update profile info
+    document.getElementById('avatar').textContent = data.name.charAt(0).toUpperCase();
+    document.getElementById('profileName').textContent = data.name;
+    document.getElementById('profileEmail').textContent = data.email;
+    document.getElementById('walletBalance').textContent = (data.wallet || 0).toFixed(2);
+    document.getElementById('referralCode').textContent = data.referralCode || '---';
+    document.getElementById('totalReferrals').textContent = data.referralCount || 0;
+
+    // Update member badge
+    const joinDate = new Date(data.createdAt || Date.now());
+    document.getElementById('memberBadge').innerHTML = `
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      Member since ${joinDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+
+    `;
+
+    // Update form values
+    document.getElementById('updateName').value = data.name;
+    document.getElementById('updateEmail').value = data.email;
+
+    // Update plan info
+    if (data.activePlan) {
+      const startDate = new Date(data.planStartDate || Date.now());
+      const expiryDate = new Date(startDate);
+      expiryDate.setDate(expiryDate.getDate() + data.activePlan.durationDays);
+      
+      document.getElementById('planDetails').innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+          <div style="text-align: center; padding: 16px; background: var(--bg-secondary); border-radius: 10px;">
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">Plan Name</div>
+            <div style="font-size: 18px; font-weight: 700; color: var(--accent-primary);">${data.activePlan.name}</div>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--bg-secondary); border-radius: 10px;">
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">Investment</div>
+            <div style="font-size: 18px; font-weight: 700;">${data.activePlan.totalInvestment}$</div>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--bg-secondary); border-radius: 10px;">
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">Daily Profit</div>
+            <div style="font-size: 18px; font-weight: 700; color: var(--success);">${data.activePlan.dailyProfit}$</div>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--bg-secondary); border-radius: 10px;">
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">Expires</div>
+            <div style="font-size: 18px; font-weight: 700;">${expiryDate.toLocaleDateString()}</div>
+          </div>
+        </div>
+      `;
+    }
+  } catch (err) {
+    console.error(err);
+    // Show content anyway for demo
+    setTimeout(() => {
+      document.getElementById('loadingSkeleton').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+      animateCounter('counterUsers', 100);
+      animateCounter('counterWithdrawals', 200);
+      animateCounter('counterCountries', 50);
+    }, 1500);
+  }
+}
+
+// ✅ CHANGE #2: Update Profile API
+document.getElementById('updateProfileForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = getToken();
+  const name = document.getElementById('updateName').value.trim();
+  const email = document.getElementById('updateEmail').value.trim();
+
+  try {
+    const res = await fetch('https://crx-auth.onrender.com/api/auth/update-profile', {  // 👈 CHANGED
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ name, email })
+    });
+    
+    const data = await res.json();
+    
+    if (res.ok) {
+      alert('✅ Profile updated successfully!');
+      loadProfile();
+    } else {
+      alert('❌ ' + (data.message || 'Failed to update profile'));
+    }
+  } catch (err) {
+    alert('❌ Error updating profile');
+  }
+});
+
+// ✅ CHANGE #3: Change Password API
+document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = getToken();
+  const oldPassword = document.getElementById('oldPassword').value.trim();
+  const newPassword = document.getElementById('newPassword').value.trim();
+
+  if (newPassword.length < 6) {
+    alert('❌ New password must be at least 6 characters');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://crx-auth.onrender.com/api/auth/change-password', {  // 👈 CHANGED
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ oldPassword, newPassword })
+    });
+    
+    const data = await res.json();
+    
+    if (res.ok) {
+      alert('✅ Password changed successfully!');
+      document.getElementById('oldPassword').value = '';
+      document.getElementById('newPassword').value = '';
+    } else {
+      alert('❌ ' + (data.message || 'Error changing password'));
+    }
+  } catch (err) {
+    alert('❌ Server error while changing password');
+  }
+});
+
+// Initialize
+loadProfile();
+</script>
+
+</body>
+</html>

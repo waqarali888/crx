@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Upload - CRX Admin</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: #f8f9fa;
+  overflow-x: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 260px;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 0;
+  transition: transform 0.3s;
+  z-index: 1000;
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.logo-section {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.admin-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  background: #6366f1;
+  color: white;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.nav-menu {
+  padding: 0 16px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 4px;
+  color: #6b7280;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.nav-item.active {
+  background: #eef2ff;
+  color: #6366f1;
+}
+
+.nav-item .icon {
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+}
+
+.logout-section {
+  position: absolute;
+  bottom: 24px;
+  left: 16px;
+  right: 16px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: #fef2f2;
+  color: #dc2626;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  background: #fee2e2;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 260px;
+  padding: 24px;
+  transition: margin-left 0.3s;
+  min-height: 100vh;
+}
+
+.main-content.expanded {
+  margin-left: 0;
+}
+
+/* Header */
+.header {
+  background: #fff;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.header-left p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #111827;
+}
+
+/* Upload Section */
+.upload-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.card-header {
+  margin-bottom: 20px;
+}
+
+.card-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.card-header p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #111827;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.input-group {
+  display: flex;
+  gap: 12px;
+}
+
+.form-input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.btn {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.btn-success {
+  background: #10b981;
+  color: white;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-success:hover {
+  background: #059669;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* Video Lists */
+.video-section {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.video-list {
+  list-style: none;
+  padding: 0;
+}
+
+.video-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.video-item:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.video-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.video-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.video-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.video-link {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.video-id {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Alert */
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.alert-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+}
+
+.alert-success {
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.alert-icon {
+  font-size: 18px;
+}
+
+/* Mobile Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .header-left {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .video-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .video-info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 16px;
+  }
+  
+  .header {
+    padding: 16px;
+  }
+  
+  .upload-card, .video-section {
+    padding: 16px;
+  }
+}
+</style>
+</head>
+<body>
+<!-- Overlay for mobile -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="logo-section">
+    <div class="logo-container">
+      <div class="logo">CRX</div>
+      <div>
+        <div class="logo-text">CRX System</div>
+        <span class="admin-badge">ADMIN</span>
+      </div>
+    </div>
+  </div>
+  
+  <nav class="nav-menu">
+    <a href="admin-dashboard.html" class="nav-item">
+      <span class="icon">📊</span>
+      <span>Dashboard</span>
+    </a>
+    <a href="request.html" class="nav-item">
+      <span class="icon">📋</span>
+      <span>Plan Requests</span>
+    </a>
+    <a href="admin-withdraw.html" class="nav-item">
+      <span class="icon">💰</span>
+      <span>Withdrawals</span>
+    </a>
+    <a href="task-upload.html" class="nav-item active">
+      <span class="icon">📤</span>
+      <span>Task Upload</span>
+    </a>
+  </nav>
+  
+  <div class="logout-section">
+    <button class="logout-btn" onclick="logout()">
+      <span>🚪</span>
+      <span>Logout</span>
+    </button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <div>
+        <h1>Video Task Upload</h1>
+        <p>Manage and upload video tasks for different plans</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Card -->
+  <div class="upload-card">
+    <div class="card-header">
+      <h2>📹 Upload New Videos</h2>
+      <p>Add YouTube links or embed codes for task videos</p>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon">ℹ️</span>
+      <div>
+        <strong>Supported formats:</strong> YouTube links (youtu.be, youtube.com/watch), YouTube Shorts, or iframe embed codes
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="planSelect">Select Plan</label>
+      <select class="form-select" id="planSelect">
+        <option value="">-- Choose a plan --</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="videoLink">Video Link or Embed Code</label>
+      <div class="input-group">
+        <input 
+          type="text" 
+          class="form-input" 
+          id="videoLink" 
+          placeholder="Paste YouTube URL or iframe code..."
+        >
+        <button class="btn btn-primary" id="addVideo">
+          <span>➕</span>
+          <span>Add Video</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Videos -->
+  <div class="video-section" id="pendingSection" style="display: none;">
+    <div class="section-header">
+      <h3>
+        <span>📝</span>
+        <span>Pending Videos</span>
+        <span class="badge" id="pendingCount">0</span>
+      </h3>
+    </div>
+    <ul class="video-list" id="videoList"></ul>
+    <button class="btn btn-success" id="updateAll">
+      <span>💾</span>
+      <span>Save All Videos</span>
+    </button>
+  </div>
+
+  <!-- Saved Videos -->
+  <div class="video-section">
+    <div class="section-header">
+      <h3>
+        <span>✅</span>
+        <span>Saved Videos</span>
+        <span class="badge" id="savedCount">0</span>
+      </h3>
+      <button class="btn btn-danger btn-sm" id="deleteAllVideos" style="width: auto;">
+        <span>🗑️</span>
+        <span>Delete All</span>
+      </button>
+    </div>
+    <ul class="video-list" id="savedVideos">
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <div class="empty-text">No videos uploaded yet. Select a plan to view saved videos.</div>
+      </div>
+    </ul>
+  </div>
+</div>
+
+<script>
+let videoArray = [];
+let savedVideosArray = [];
+
+const planSelect = document.getElementById('planSelect');
+const videoLinkInput = document.getElementById('videoLink');
+const videoList = document.getElementById('videoList');
+const savedVideosList = document.getElementById('savedVideos');
+const addVideoBtn = document.getElementById('addVideo');
+const updateAllBtn = document.getElementById('updateAll');
+const deleteAllBtn = document.getElementById('deleteAllVideos');
+const pendingSection = document.getElementById('pendingSection');
+
+// Toggle Sidebar
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  sidebar.classList.toggle('active');
+  overlay.classList.toggle('active');
+}
+
+// Logout
+function logout() {
+  localStorage.removeItem('adminToken');
+  window.location.href = 'admin-login.html';
+}
+
+// Check admin token
+const token = localStorage.getItem('adminToken');
+if(!token) {
+  alert('⚠️ Admin access required');
+  window.location.href = 'admin-login.html';
+}
+
+// Load plans
+async function loadPlans() {
+  try {
+    const res = await fetch('/api/plans', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if(res.ok) {
+      data.forEach(plan => {
+        const option = document.createElement('option');
+        option.value = plan.name;
+        option.textContent = `${plan.name} - ₨${plan.totalInvestment}`;
+        planSelect.appendChild(option);
+      });
+    } else {
+      alert(data.message || 'Failed to load plans');
+    }
+  } catch(err) {
+    console.error(err);
+    alert('❌ Server error while loading plans');
+  }
+}
+
+// Load saved videos
+async function loadSavedVideos(planName) {
+  try {
+    const res = await fetch(`/api/admin/videos/${planName}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if(res.ok) {
+      savedVideosArray = data.videos || [];
+      renderSavedVideos();
+    } else {
+      alert(data.message || 'Failed to load saved videos');
+    }
+  } catch(err) {
+    console.error(err);
+    alert('❌ Server error while loading saved videos');
+  }
+}
+
+// Render pending videos
+function renderList() {
+  document.getElementById('pendingCount').textContent = videoArray.length;
+  
+  if(videoArray.length === 0) {
+    pendingSection.style.display = 'none';
+    return;
+  }
+  
+  pendingSection.style.display = 'block';
+  videoList.innerHTML = '';
+  
+  videoArray.forEach((v, index) => {
+    const li = document.createElement('li');
+    li.className = 'video-item';
+    li.innerHTML = `
+      <div class="video-info">
+        <div class="video-icon">🎬</div>
+        <div class="video-details">
+          <div class="video-link">${v.link}</div>
+          <div class="video-id">Video ${index + 1}</div>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deleteVideo('${v.videoId}')">
+        <span>🗑️</span>
+        <span>Delete</span>
+      </button>
+    `;
+    videoList.appendChild(li);
+  });
+}
+
+// Render saved videos
+function renderSavedVideos() {
+  document.getElementById('savedCount').textContent = savedVideosArray.length;
+  
+  if(savedVideosArray.length === 0) {
+    savedVideosList.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <div class="empty-text">No videos saved for this plan yet.</div>
+      </div>
+    `;
+    return;
+  }
+  
+  savedVideosList.innerHTML = '';
+  savedVideosArray.forEach((v, index) => {
+    const li = document.createElement('li');
+    li.className = 'video-item';
+    li.innerHTML = `
+      <div class="video-info">
+        <div class="video-icon">✅</div>
+        <div class="video-details">
+          <div class="video-link">${v.link}</div>
+          <div class="video-id">Video ${index + 1} • ID: ${v.videoId}</div>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deleteSavedVideo('${v.videoId}')">
+        <span>🗑️</span>
+        <span>Delete</span>
+      </button>
+    `;
+    savedVideosList.appendChild(li);
+  });
+}
+
+// Delete from pending list
+window.deleteVideo = function(videoId) {
+  videoArray = videoArray.filter(v => v.videoId !== videoId);
+  renderList();
+}
+
+// Delete saved video
+window.deleteSavedVideo = async function(videoId) {
+  const planName = planSelect.value;
+  if(!confirm('Delete this video?')) return;
+  
+  try {
+    const res = await fetch(`/api/admin/videos/${planName}/${videoId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if(res.ok) {
+      savedVideosArray = savedVideosArray.filter(v => v.videoId !== videoId);
+      renderSavedVideos();
+      alert('✅ Video deleted successfully');
+    } else {
+      alert('❌ ' + (data.message || 'Failed to delete'));
+    }
+  } catch(err) {
+    console.error(err);
+    alert('❌ Server error');
+  }
+}
+
+// Delete all saved videos
+deleteAllBtn.addEventListener('click', async () => {
+  const planName = planSelect.value;
+  if(!planName) return alert('⚠️ Select a plan first');
+  if(savedVideosArray.length === 0) return alert('⚠️ No videos to delete');
+  if(!confirm(`Delete all ${savedVideosArray.length} videos?`)) return;
+
+  try {
+    const res = await fetch(`/api/admin/videos/${planName}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ videoIds: savedVideosArray.map(v => v.videoId) })
+    });
+    const data = await res.json();
+    if(res.ok) {
+      savedVideosArray = [];
+      renderSavedVideos();
+      alert('✅ All videos deleted successfully');
+    } else {
+      alert('❌ ' + (data.message || 'Failed to delete'));
+    }
+  } catch(err) {
+    console.error(err);
+    alert('❌ Server error');
+  }
+});
+
+// Add video to pending list
+addVideoBtn.addEventListener('click', () => {
+  const link = videoLinkInput.value.trim();
+  const plan = planSelect.value;
+  
+  if(!plan) return alert('⚠️ Please select a plan first');
+  if(!link) return alert('⚠️ Please enter a video link or embed code');
+
+  const videoId = Date.now().toString();
+  videoArray.push({ link, videoId });
+  renderList();
+  videoLinkInput.value = '';
+  videoLinkInput.focus();
+});
+
+// Update all videos
+updateAllBtn.addEventListener('click', async () => {
+  const plan = planSelect.value;
+  if(!plan) return alert('⚠️ Select a plan');
+  if(videoArray.length === 0) return alert('⚠️ No videos to save');
+  
+  if(!confirm(`Save ${videoArray.length} videos to ${plan}?`)) return;
+
+  try {
+    updateAllBtn.disabled = true;
+    updateAllBtn.innerHTML = '<span>⏳</span><span>Saving...</span>';
+    
+    const res = await fetch('/api/admin/videos/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ 
+        planName: plan, 
+        videos: videoArray.map(v => v.link) 
+      })
+    });
+    const data = await res.json();
+    
+    if(res.ok) {
+      alert('✅ Videos saved successfully!');
+      videoArray = [];
+      renderList();
+      loadSavedVideos(plan);
+    } else {
+      alert('❌ ' + (data.message || 'Failed to save'));
+    }
+  } catch(err) {
+    console.error(err);
+    alert('❌ Server error');
+  } finally {
+    updateAllBtn.disabled = false;
+    updateAllBtn.innerHTML = '<span>💾</span><span>Save All Videos</span>';
+  }
+});
+
+// Load saved videos on plan change
+planSelect.addEventListener('change', () => {
+  const plan = planSelect.value;
+  if(plan) {
+    loadSavedVideos(plan);
+  } else {
+    savedVideosArray = [];
+    renderSavedVideos();
+  }
+});
+
+// Enter key to add video
+videoLinkInput.addEventListener('keypress', (e) => {
+  if(e.key === 'Enter') {
+    addVideoBtn.click();
+  }
+});
+
+// Close sidebar when clicking nav items on mobile
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if(window.innerWidth <= 768) {
+      toggleSidebar();
+    }
+  });
+});
+
+// Initial load
+loadPlans();
+</script>
+</body>
+</html>

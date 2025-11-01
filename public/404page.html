@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="400 - Bad Request">
+<meta name="author" content="Bano Digital Hub">
+<meta name="theme-color" content="#6366f1">
+<title>CRX - 400 Bad Request</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #8b5cf6;
+  --bg-main: #0a0a0a;
+  --bg-card: rgba(18, 18, 18, 0.95);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --border: rgba(99, 102, 241, 0.2);
+  --danger: #dc2626;
+  --glow: rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="light"] {
+  --bg-main: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border: rgba(99, 102, 241, 0.3);
+  --glow: rgba(99, 102, 241, 0.08);
+}
+
+[data-theme="ocean"] {
+  --primary: #06b6d4;
+  --primary-dark: #0891b2;
+  --secondary: #0284c7;
+  --glow: rgba(6, 182, 212, 0.15);
+}
+
+[data-theme="sunset"] {
+  --primary: #f59e0b;
+  --primary-dark: #d97706;
+  --secondary: #f97316;
+  --glow: rgba(245, 158, 11, 0.15);
+}
+
+[data-theme="forest"] {
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --secondary: #14b8a6;
+  --glow: rgba(16, 185, 129, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+  background: var(--bg-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.bg-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 20s infinite alternate ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow:nth-child(2) {
+  top: 60%;
+  left: 70%;
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+.theme-toggle-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.theme-toggle-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px var(--glow);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: 58px;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 200px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.theme-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.theme-option:hover {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.theme-option.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+}
+
+.theme-option i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.theme-option .check-icon {
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.theme-option.active .check-icon {
+  opacity: 1;
+}
+
+.container {
+  background: var(--bg-card);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 550px;
+  padding: 48px 40px;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-icon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(220, 38, 38, 0.05));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: shake 0.8s ease-in-out;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+}
+
+.error-icon i {
+  font-size: 60px;
+  color: var(--danger);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.error-code {
+  font-size: 72px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--danger) 0%, #991b1b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+  letter-spacing: -2px;
+  animation: slideInUp 0.8s ease-out 0.2s both;
+}
+
+h1 {
+  color: var(--text-primary);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  animation: slideInUp 0.8s ease-out 0.3s both;
+}
+
+.description {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  animation: slideInUp 0.8s ease-out 0.4s both;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+.btn {
+  padding: 13px 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 6px 20px var(--glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--glow);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.error-details {
+  margin-top: 32px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(220, 38, 38, 0.05));
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 12px;
+  text-align: left;
+  animation: slideInUp 0.8s ease-out 0.6s both;
+}
+
+.error-details h3 {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-details h3 i {
+  color: var(--danger);
+}
+
+.error-details ul {
+  list-style: none;
+}
+
+.error-details li {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 12px;
+  padding-left: 24px;
+  position: relative;
+}
+
+.error-details li::before {
+  content: '✗';
+  position: absolute;
+  left: 0;
+  color: var(--danger);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.support-link {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.support-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.support-link a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle-wrapper {
+    top: 16px;
+    right: 16px;
+  }
+
+  .theme-toggle-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .container {
+    padding: 40px 32px;
+  }
+
+  .error-code {
+    font-size: 64px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle-wrapper {
+    top: 12px;
+    right: 12px;
+  }
+
+  .theme-toggle-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 17px;
+  }
+
+  .container {
+    padding: 36px 24px;
+  }
+
+  .error-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .error-icon i {
+    font-size: 50px;
+  }
+
+  .error-code {
+    font-size: 56px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="glow" style="top: 20%; left: 10%;"></div>
+<div class="glow"></div>
+
+<div class="theme-toggle-wrapper">
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Change theme">
+    <i class="fas fa-palette"></i>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown">
+    <div class="theme-option active" data-theme="dark">
+      <i class="fas fa-moon"></i>
+      <span>Dark</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="light">
+      <i class="fas fa-sun"></i>
+      <span>Light</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="ocean">
+      <i class="fas fa-water"></i>
+      <span>Ocean</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="sunset">
+      <i class="fas fa-fire"></i>
+      <span>Sunset</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="forest">
+      <i class="fas fa-leaf"></i>
+      <span>Forest</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="error-icon">
+    <i class="fas fa-ban"></i>
+  </div>
+  
+  <div class="error-code">400</div>
+  
+  <h1>Bad Request</h1>
+  
+  <p class="description">
+    The request you sent couldn't be processed. This usually happens when the request is malformed, contains invalid data, or is missing required information.
+  </p>
+  
+  <div class="button-group">
+    <a href="javascript:history.back()" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i>
+      Go Back
+    </a>
+    <a href="#" id="homeBtn" class="btn btn-primary">
+      <i class="fas fa-home"></i>
+      Go to Home
+    </a>
+  </div>
+  
+  <div class="error-details">
+    <h3><i class="fas fa-clipboard-list"></i> Common Causes</h3>
+    <ul>
+      <li>Invalid or missing form data</li>
+      <li>Incorrect URL or parameters</li>
+      <li>Malformed request headers</li>
+      <li>Expired or corrupted session</li>
+      <li>Unsupported file format or size</li>
+    </ul>
+    
+    <div class="support-link">
+      Still having issues? <a href="support.html">Contact Support</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Theme Management
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const themeDropdown = document.getElementById('themeDropdown');
+const themeOptions = document.querySelectorAll('.theme-option');
+const body = document.body;
+
+const savedTheme = localStorage.getItem('theme') || 'dark';
+body.setAttribute('data-theme', savedTheme);
+updateActiveTheme(savedTheme);
+
+themeToggleBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  themeDropdown.classList.toggle('active');
+});
+
+document.addEventListener('click', (e) => {
+  if (!themeDropdown.contains(e.target) && e.target !== themeToggleBtn) {
+    themeDropdown.classList.remove('active');
+  }
+});
+
+themeOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    const theme = option.getAttribute('data-theme');
+    body.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateActiveTheme(theme);
+    themeDropdown.classList.remove('active');
+  });
+});
+
+function updateActiveTheme(theme) {
+  themeOptions.forEach(option => {
+    option.classList.toggle('active', option.getAttribute('data-theme') === theme);
+  });
+}
+
+// Home Button Logic
+const homeBtn = document.getElementById('homeBtn');
+const token = sessionStorage.getItem('token');
+
+if (token) {
+  homeBtn.href = 'dashboard.html';
+} else {
+  homeBtn.href = 'login.html';
+}
+</script>
+</body>
+</html>

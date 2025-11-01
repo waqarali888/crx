@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Secure password recovery portal with modern design and theme customization">
+<meta name="keywords" content="forgot password, password recovery, reset password">
+<meta name="author" content="Bano Digital Hub">
+<meta name="theme-color" content="#6366f1">
+<title>CRX - Password Recovery</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #8b5cf6;
+  --bg-main: #0a0a0a;
+  --bg-card: rgba(18, 18, 18, 0.95);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --border: rgba(99, 102, 241, 0.2);
+  --input-bg: rgba(30, 30, 30, 0.8);
+  --success: #10b981;
+  --error: #ef4444;
+  --glow: rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="light"] {
+  --bg-main: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border: rgba(99, 102, 241, 0.3);
+  --input-bg: rgba(248, 250, 252, 0.9);
+  --glow: rgba(99, 102, 241, 0.08);
+}
+
+[data-theme="ocean"] {
+  --primary: #06b6d4;
+  --primary-dark: #0891b2;
+  --secondary: #0284c7;
+  --glow: rgba(6, 182, 212, 0.15);
+}
+
+[data-theme="sunset"] {
+  --primary: #f59e0b;
+  --primary-dark: #d97706;
+  --secondary: #f97316;
+  --glow: rgba(245, 158, 11, 0.15);
+}
+
+[data-theme="forest"] {
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --secondary: #14b8a6;
+  --glow: rgba(16, 185, 129, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+  background: var(--bg-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  padding-bottom: 60px;
+  position: relative;
+  overflow-x: hidden;
+  transition: background 0.3s ease;
+}
+
+.bg-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 20s infinite alternate ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow:nth-child(2) {
+  top: 60%;
+  left: 70%;
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+.theme-toggle-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  animation: slideInRight 0.6s ease-out;
+}
+
+.theme-toggle-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px var(--glow);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: 58px;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 200px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.theme-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.theme-option:hover {
+  background: var(--input-bg);
+}
+
+.theme-option.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+}
+
+.theme-option i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.theme-option .check-icon {
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.theme-option.active .check-icon {
+  opacity: 1;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.container {
+  background: var(--bg-card);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  padding: 48px 40px;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 36px;
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--glow);
+  animation: logoFloat 3s ease-in-out infinite;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo i {
+  font-size: 36px;
+  color: white;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.tagline {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+h2 {
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out 0.3s both;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+  animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
+.progress-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 8px;
+  animation: fadeIn 0.8s ease-out 0.3s both;
+}
+
+.progress-step {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.2);
+  transition: all 0.3s;
+}
+
+.progress-step.active {
+  background: var(--primary);
+  width: 32px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--glow);
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
+.input-group label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 15px;
+  transition: color 0.3s ease;
+  pointer-events: none;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 13px 44px;
+  background: var(--input-bg);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--input-bg);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+
+.input-group input:focus ~ i.input-icon {
+  color: var(--primary);
+}
+
+.input-group input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.question-display {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.question-display strong {
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+button.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 20px var(--glow);
+  position: relative;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+button.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button.submit-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+button.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--glow);
+}
+
+button.submit-btn:active {
+  transform: translateY(0);
+}
+
+button.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#msg {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 16px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: none;
+  animation: slideInUp 0.4s ease-out;
+}
+
+#msg.show {
+  display: block;
+}
+
+#msg.error {
+  color: var(--error);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+#msg.success {
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 24px;
+  animation: fadeIn 0.8s ease-out 0.8s both;
+}
+
+.back-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.back-link a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.footer {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-align: center;
+  z-index: 1;
+  animation: fadeIn 1s ease-out 1s both;
+}
+
+.footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 16px 16px 80px 16px;
+  }
+
+  .theme-toggle-wrapper {
+    top: 16px;
+    right: 16px;
+  }
+
+  .theme-toggle-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .container {
+    padding: 40px 32px;
+    max-width: 400px;
+  }
+
+  .logo {
+    width: 72px;
+    height: 72px;
+  }
+
+  h2 {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 12px 12px 70px 12px;
+  }
+
+  .theme-toggle-wrapper {
+    top: 12px;
+    right: 12px;
+  }
+
+  .theme-toggle-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 17px;
+  }
+
+  .container {
+    padding: 36px 24px;
+    border-radius: 18px;
+    max-width: 100%;
+  }
+
+  .logo {
+    width: 68px;
+    height: 68px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .input-group input {
+    padding: 12px 42px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glow {
+    width: 700px;
+    height: 700px;
+  }
+
+  .container {
+    max-width: 440px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="glow" style="top: 20%; left: 10%;"></div>
+<div class="glow"></div>
+
+<div class="theme-toggle-wrapper">
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Change theme">
+    <i class="fas fa-palette"></i>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown">
+    <div class="theme-option active" data-theme="dark">
+      <i class="fas fa-moon"></i>
+      <span>Dark</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="light">
+      <i class="fas fa-sun"></i>
+      <span>Light</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="ocean">
+      <i class="fas fa-water"></i>
+      <span>Ocean</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="sunset">
+      <i class="fas fa-fire"></i>
+      <span>Sunset</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="forest">
+      <i class="fas fa-leaf"></i>
+      <span>Forest</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="logo-section">
+    <div class="logo">
+      <img src="images/earn.jpeg" alt="CRX Logo" onerror="this.parentElement.innerHTML='<i class=\'fas fa-shield-alt\' style=\'font-size:36px;color:white;\'></i>'">
+    </div>
+    <div class="tagline">Password Recovery</div>
+  </div>
+  
+  <div class="progress-indicator">
+    <div class="progress-step active" id="progress1"></div>
+    <div class="progress-step" id="progress2"></div>
+    <div class="progress-step" id="progress3"></div>
+  </div>
+  
+  <h2>Reset Password</h2>
+  <p class="subtitle" id="stepSubtitle">Enter your email to get started</p>
+  
+  <form id="forgotForm">
+    <!-- Step 1: Email -->
+    <div class="step active" id="step1">
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+          <i class="fas fa-envelope input-icon"></i>
+        </div>
+      </div>
+      <button type="button" class="submit-btn" onclick="getQuestion()">Continue</button>
+    </div>
+    
+    <!-- Step 2: Security Question -->
+    <div class="step" id="step2">
+      <div class="question-display">
+        <strong>Security Question:</strong>
+        <span id="question"></span>
+      </div>
+      <div class="input-group">
+        <label for="answer">Your Answer</label>
+        <div class="input-wrapper">
+          <input type="text" id="answer" name="answer" placeholder="Enter your answer" required>
+          <i class="fas fa-key input-icon"></i>
+        </div>
+      </div>
+      <button type="button" class="submit-btn" onclick="verifyAnswer()">Verify Answer</button>
+    </div>
+    
+    <!-- Step 3: New Password -->
+    <div class="step" id="step3">
+      <div class="input-group">
+        <label for="newPassword">New Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="newPassword" name="newPassword" placeholder="Create new password" required autocomplete="new-password">
+          <i class="fas fa-lock input-icon"></i>
+        </div>
+      </div>
+      <button type="button" class="submit-btn" onclick="resetPassword()">Reset Password</button>
+    </div>
+    
+    <p id="msg" role="alert" aria-live="polite"></p>
+    
+    <div class="back-link">
+      <a href="login.html"><i class="fas fa-arrow-left"></i> Back to Login</a>
+    </div>
+  </form>
+</div>
+
+<footer class="footer">
+  Developed by <a href="https://www.banodigitalhub.pk/" target="_blank" rel="noopener noreferrer">Bano Digital Hub</a>
+</footer>
+
+<script>
+// ==========================
+// 🌙 Theme Management
+// ==========================
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const themeDropdown = document.getElementById('themeDropdown');
+const themeOptions = document.querySelectorAll('.theme-option');
+const body = document.body;
+
+const savedTheme = localStorage.getItem('theme') || 'dark';
+body.setAttribute('data-theme', savedTheme);
+updateActiveTheme(savedTheme);
+
+themeToggleBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  themeDropdown.classList.toggle('active');
+});
+
+document.addEventListener('click', (e) => {
+  if (!themeDropdown.contains(e.target) && e.target !== themeToggleBtn) {
+    themeDropdown.classList.remove('active');
+  }
+});
+
+themeOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    const theme = option.getAttribute('data-theme');
+    body.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateActiveTheme(theme);
+    themeDropdown.classList.remove('active');
+  });
+});
+
+function updateActiveTheme(theme) {
+  themeOptions.forEach(option => {
+    option.classList.toggle('active', option.getAttribute('data-theme') === theme);
+  });
+}
+
+// ==========================
+// 🔄 Password Recovery Flow
+// ==========================
+let emailStored = '';
+let currentStep = 1;
+
+function updateProgress(step) {
+  currentStep = step;
+  for(let i = 1; i <= 3; i++) {
+    const progressEl = document.getElementById('progress' + i);
+    if(i <= step) {
+      progressEl.classList.add('active');
+    } else {
+      progressEl.classList.remove('active');
+    }
+  }
+  
+  const subtitles = {
+    1: 'Enter your email to get started',
+    2: 'Answer your security question',
+    3: 'Create a new password'
+  };
+  document.getElementById('stepSubtitle').textContent = subtitles[step];
+}
+
+async function getQuestion() {
+  const email = document.getElementById('email').value;
+  if(!email) return;
+  
+  const msgEl = document.getElementById('msg');
+  const btn = document.querySelector('#step1 button');
+  const originalText = btn.textContent;
+  
+  btn.textContent = 'Checking...';
+  btn.disabled = true;
+  msgEl.classList.remove('show', 'success', 'error');
+  
+  try {
+    const res = await fetch('/api/forgot/get-question', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    
+    if(data.securityQuestion) {
+      emailStored = email;
+      document.getElementById('question').textContent = data.securityQuestion;
+      document.getElementById('step1').classList.remove('active');
+      document.getElementById('step2').classList.add('active');
+      updateProgress(2);
+      msgEl.classList.remove('show');
+    } else {
+      showMessage(msgEl, data.message || '✗ Email not found', 'error');
+    }
+    
+    btn.textContent = originalText;
+    btn.disabled = false;
+  } catch(err) {
+    showMessage(msgEl, '✗ Server error. Please try again.', 'error');
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
+
+async function verifyAnswer() {
+  const answer = document.getElementById('answer').value;
+  if(!answer) return;
+  
+  const msgEl = document.getElementById('msg');
+  const btn = document.querySelector('#step2 button');
+  const originalText = btn.textContent;
+  
+  btn.textContent = 'Verifying...';
+  btn.disabled = true;
+  msgEl.classList.remove('show', 'success', 'error');
+  
+  try {
+    const res = await fetch('/api/forgot/verify-answer', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email: emailStored, answer })
+    });
+    const data = await res.json();
+    
+    if(data.message === 'Answer verified') {
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('step3').classList.add('active');
+      updateProgress(3);
+      msgEl.classList.remove('show');
+    } else {
+      showMessage(msgEl, data.message || '✗ Incorrect answer', 'error');
+    }
+    
+    btn.textContent = originalText;
+    btn.disabled = false;
+  } catch(err) {
+    showMessage(msgEl, '✗ Server error. Please try again.', 'error');
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
+
+async function resetPassword() {
+  const newPassword = document.getElementById('newPassword').value;
+  if(!newPassword) return;
+  
+  const msgEl = document.getElementById('msg');
+  const btn = document.querySelector('#step3 button');
+  const originalText = btn.textContent;
+  
+  btn.textContent = 'Resetting...';
+  btn.disabled = true;
+  msgEl.classList.remove('show', 'success', 'error');
+  
+  try {
+    const res = await fetch('/api/forgot/reset', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email: emailStored, newPassword })
+    });
+    const data = await res.json();
+    
+    if(data.message === 'Password updated successfully') {
+      showMessage(msgEl, '✓ Password reset successful! Redirecting...', 'success');
+      setTimeout(() => window.location.href = 'login.html', 2000);
+    } else {
+      showMessage(msgEl, data.message || '✗ Password reset failed', 'error');
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  } catch(err) {
+    showMessage(msgEl, '✗ Server error. Please try again.', 'error');
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
+
+function showMessage(element, text, type) {
+  element.textContent = text;
+  element.className = `show ${type}`;
+}
+
+// ==========================
+// ✨ Input Focus Animation
+// ==========================
+document.querySelectorAll('input').forEach(input => {
+  input.addEventListener('focus', () => input.parentElement.style.transform = 'scale(1.01)');
+  input.addEventListener('blur', () => input.parentElement.style.transform = 'scale(1)');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRX - Admin Login</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: #0a0a0a;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: 0;
+}
+
+.glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 20s infinite alternate;
+  z-index: 0;
+}
+
+.glow:nth-child(2) {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  top: 60%;
+  left: 70%;
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+.container {
+  background: rgba(18, 18, 18, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  padding: 48px 40px;
+  position: relative;
+  z-index: 10;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.brand {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.admin-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+h2 {
+  color: #fff;
+  margin-bottom: 32px;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  color: #aaa;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(30, 30, 30, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 8px;
+  font-size: 14px;
+  color: #fff;
+  transition: all 0.2s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.input-group input::placeholder {
+  color: #555;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#msg {
+  color: #ef4444;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  display: none;
+}
+
+#msg.show {
+  display: block;
+}
+
+#msg.success {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.back-link a {
+  color: #6366f1;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.back-link a:hover {
+  color: #8b5cf6;
+}
+
+.security-notice {
+  margin-top: 24px;
+  padding: 12px;
+  background: rgba(99, 102, 241, 0.05);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.security-notice .icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.security-notice p {
+  color: #888;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 36px 24px;
+  }
+  
+  .logo {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .brand {
+    font-size: 20px;
+  }
+  
+  h2 {
+    font-size: 18px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="glow" style="top: 20%; left: 10%;"></div>
+<div class="glow"></div>
+
+<div class="container">
+  <div class="logo-section">
+    <div class="logo">CRX</div>
+    <div class="brand">CRX System</div>
+    <div class="admin-badge">ADMIN PANEL</div>
+  </div>
+  
+  <h2>Admin Login</h2>
+  
+  <form id="adminForm">
+    <div class="input-group">
+      <label>Admin Email</label>
+      <input type="email" name="email" placeholder="admin@crxsystem.com" required>
+    </div>
+    
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter your password" required>
+    </div>
+    
+    <button type="submit">Sign In</button>
+    
+    <p id="msg"></p>
+    
+    <div class="security-notice">
+      <div class="icon">🔒</div>
+      <p>Authorized access only. All login attempts are logged.</p>
+    </div>
+    
+    <div class="back-link">
+      <a href="login.html">← Back to User Login</a>
+    </div>
+  </form>
+</div>
+
+<script>
+// Your original JavaScript
+document.getElementById('adminForm').addEventListener('submit', async(e)=>{
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const msgEl = document.getElementById('msg');
+  const btn = e.target.querySelector('button');
+  const originalText = btn.textContent;
+  
+  btn.textContent = 'Signing In...';
+  btn.disabled = true;
+  msgEl.classList.remove('show', 'success');
+  
+  try{
+    const res = await fetch('/api/admin/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(data)
+    });
+    const result = await res.json();
+    
+    if(result.token){
+      localStorage.setItem('adminToken', result.token);
+      msgEl.textContent = '✓ Login successful! Redirecting...';
+      msgEl.classList.add('show', 'success');
+      setTimeout(() => {
+        window.location.href='admin-dashboard.html';
+      }, 1000);
+    } else {
+      msgEl.textContent = result.message || '✗ Invalid credentials';
+      msgEl.classList.add('show');
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  } catch(err){ 
+    msgEl.textContent='✗ Server error. Please try again.';
+    msgEl.classList.add('show');
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

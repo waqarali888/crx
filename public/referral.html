@@ -1,0 +1,1804 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referral Program - CRX Earning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f5;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  --border-color: #e2e8f0;
+  --accent-primary: #6366f1;
+  --accent-secondary: #8b5cf6;
+  --success: #10b981;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  --card-hover: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --border-color: #334155;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.mobile-header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
+}
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--text-secondary);
+}
+
+.desktop-sidebar {
+  display: none;
+}
+
+.main-content {
+  padding: 20px 0 100px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-secondary) 50%, var(--bg-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-header {
+  height: 32px;
+  width: 180px;
+  margin-bottom: 20px;
+}
+
+.skeleton-card {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 140px;
+  margin-bottom: 12px;
+}
+
+.skeleton-text {
+  height: 14px;
+  margin-bottom: 10px;
+}
+
+.skeleton-button {
+  height: 44px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.skeleton-stat {
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.page-title {
+  margin-bottom: 24px;
+}
+
+.page-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.page-title p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-hover);
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.level-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 32px;
+  box-shadow: var(--card-shadow);
+}
+
+.level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.level-reward {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.progress-info {
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.progress-count {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.progress-bar-bg {
+  height: 10px;
+  background: var(--bg-tertiary);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success), #059669);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.claim-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.claim-btn.active {
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.claim-btn.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.claim-btn.locked {
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+.levels-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.level-item {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+.level-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-hover);
+}
+
+.level-item.completed {
+  border-color: var(--success);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.03), rgba(5, 150, 105, 0.03));
+}
+
+.level-item.current {
+  border-color: var(--accent-primary);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
+}
+
+.level-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.level-number {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.level-item.completed .level-number {
+  color: var(--success);
+}
+
+.level-status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.level-status.completed {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.level-status.current {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-primary);
+}
+
+.level-status.locked {
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+}
+
+.level-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.level-target {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.level-target strong {
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.level-reward-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.checkmark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background: var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkmark svg {
+  width: 14px;
+  height: 14px;
+  stroke: #fff;
+  stroke-width: 3;
+}
+
+.section-card {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--accent-primary);
+}
+
+.code-container {
+  background: var(--bg-secondary);
+  border: 2px dashed var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 16px;
+  transition: all 0.3s;
+}
+
+.code-container:hover {
+  border-color: var(--accent-primary);
+}
+
+.code-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.code-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-primary);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+.copy-btn {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.copy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.share-section {
+  margin-top: 16px;
+}
+
+.share-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.share-link {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  word-break: break-all;
+  margin-bottom: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+.share-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.share-btn {
+  padding: 12px 8px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #fff;
+}
+
+.share-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.share-whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); }
+.share-telegram { background: linear-gradient(135deg, #0088cc, #0066aa); }
+.share-facebook { background: linear-gradient(135deg, #1877f2, #0c5dbe); }
+.share-twitter { background: linear-gradient(135deg, #1da1f2, #0c7abf); }
+
+.rules-container {
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.rule-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.rule-item:last-child {
+  border-bottom: none;
+}
+
+.rule-number {
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.rule-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.referrals-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.referrals-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.referrals-container::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 10px;
+}
+
+.referrals-container::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 10px;
+}
+
+.referral-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: all 0.3s;
+}
+
+.referral-item:hover {
+  background: var(--bg-tertiary);
+  transform: translateX(2px);
+}
+
+.referral-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.referral-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.referral-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.referral-date {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.referral-badge {
+  padding: 5px 8px;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 30px 16px;
+}
+
+.empty-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.empty-icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: var(--text-tertiary);
+}
+
+.empty-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.accordion {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-header {
+  padding: 14px 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+  background: var(--bg-primary);
+}
+
+.accordion-header:hover {
+  background: var(--bg-secondary);
+}
+
+.accordion-title {
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1;
+  padding-right: 10px;
+}
+
+.accordion-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+
+.accordion-item.active .accordion-icon {
+  transform: rotate(180deg);
+  background: var(--accent-primary);
+}
+
+.accordion-item.active .accordion-icon svg {
+  stroke: #fff;
+}
+
+.accordion-icon svg {
+  width: 12px;
+  height: 12px;
+  stroke: var(--text-secondary);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-body {
+  padding: 0 16px 14px 16px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.toast {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 10000;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  animation: slideDown 0.3s ease;
+  max-width: 90%;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translate(-50%, -20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0 8px;
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  color: var(--text-tertiary);
+  transition: all 0.2s;
+  padding: 4px 6px;
+  flex: 1;
+  max-width: 70px;
+}
+
+.nav-item.active {
+  color: var(--accent-primary);
+}
+
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+}
+
+.nav-item span {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 639px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  .share-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 24px;
+  }
+  
+  .main-content {
+    padding: 24px 0 100px;
+  }
+  
+  .page-title h1 {
+    font-size: 28px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .levels-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .share-buttons {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  
+  .section-card {
+    padding: 32px;
+  }
+
+  .level-card {
+    padding: 32px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-header {
+    display: none;
+  }
+  
+  .bottom-nav {
+    display: none;
+  }
+  
+  .desktop-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border-color);
+    padding: 24px 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 24px;
+  }
+
+  .sidebar-logo-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sidebar-logo .logo {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .sidebar-logo .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sidebar-logo .brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 0 16px;
+  }
+
+  .sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    width: 100%;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+
+  .sidebar-nav-item:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateX(4px);
+  }
+
+  .sidebar-nav-item.active {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .sidebar-nav-item svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    flex-shrink: 0;
+  }
+
+  .sidebar-footer {
+    padding: 24px 16px 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: 24px;
+  }
+
+  .main-content {
+    margin-left: 280px;
+    padding: 40px 0;
+  }
+  
+  .page-title {
+    margin-bottom: 40px;
+  }
+  
+  .page-title h1 {
+    font-size: 32px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .levels-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .stat-card {
+    padding: 28px;
+  }
+  
+  .stat-value {
+    font-size: 36px;
+  }
+
+  .level-card {
+    padding: 36px;
+  }
+
+  .section-card {
+    padding: 36px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 32px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Desktop Sidebar -->
+<div class="desktop-sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-content">
+      <div class="logo">
+        <img src="../images/earn.jpeg" alt="CRX Logo">
+      </div>
+      <div class="brand-name">CRX</div>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <button class="sidebar-nav-item" onclick="window.location.href='dashboard.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span>Home</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='plan.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+      </svg>
+      <span>Plans</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='task.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+      </svg>
+      <span>Tasks</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='withdraw.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+      </svg>
+      <span>Withdraw</span>
+    </button>
+    <button class="sidebar-nav-item active" onclick="window.location.href='referral.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+      </svg>
+      <span>Referral</span>
+    </button>
+    <button class="sidebar-nav-item" onclick="window.location.href='profile.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+      <span>Profile</span>
+    </button>
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="sidebar-nav-item" onclick="window.location.href='support.html'">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+      </svg>
+      <span>Support</span>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Header -->
+<header class="mobile-header">
+  <div class="header-content">
+    <div class="logo-section">
+      <div class="logo">
+        <img src="../images/earn.jpeg" alt="CRX Logo">
+      </div>
+      <div class="brand-name">CRX</div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+  <div class="container">
+    
+    <!-- Loading Skeleton -->
+    <div id="loadingSkeleton">
+      <div class="skeleton skeleton-header"></div>
+      <div class="stats-grid">
+        <div class="skeleton-card">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-stat"></div>
+        </div>
+        <div class="skeleton-card">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-stat"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-button"></div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+      
+      <!-- Page Title -->
+      <div class="page-title">
+        <h1>Referral Program</h1>
+        <p>Invite friends and unlock progressive rewards with our multi-level system</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Referrals</div>
+          <div class="stat-value" id="totalReferrals">0</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-label">Total Earned</div>
+          <div class="stat-value">$<span id="totalEarned">0</span></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Current Level</div>
+          <div class="stat-value" id="currentLevel">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Next Reward</div>
+          <div class="stat-value">$<span id="nextReward">1</span></div>
+        </div>
+      </div>
+
+      <!-- Current Progress Card -->
+      <div class="level-card" id="currentLevelCard">
+        <div class="level-header">
+          <div class="level-badge" id="levelBadge">Level 1</div>
+          <div class="level-reward" id="levelRewardAmount">$1.00</div>
+        </div>
+        
+        <div class="progress-info">
+          <div class="progress-stats">
+            <div class="progress-label">Progress to Next Level</div>
+            <div class="progress-count"><span id="currentProgress">0</span> / <span id="targetReferrals">3</span></div>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+          </div>
+          <div class="progress-text" id="progressText">Complete 3 referrals to unlock Level 1 reward</div>
+        </div>
+
+        <button id="claimBtn" class="claim-btn locked">
+          <span id="claimBtnText">Need 3 More Referrals</span>
+        </button>
+      </div>
+
+      <!-- Reward Levels -->
+      <div class="section-card">
+        <div class="section-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Reward Levels
+        </div>
+        
+        <div class="levels-grid" id="levelsGrid">
+          <!-- Levels will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Referral Code -->
+      <div class="section-card">
+        <div class="section-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+          </svg>
+          Your Referral Code
+        </div>
+        
+        <div class="code-container">
+          <div class="code-label">Your Unique Code</div>
+          <div class="code-value" id="referralCode">------</div>
+          <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+        </div>
+
+        <div class="share-section">
+          <div class="share-title">Share Your Referral Link</div>
+          <div class="share-link" id="shareLink">Loading...</div>
+          
+          <div class="share-buttons">
+            <button class="share-btn share-whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
+            <button class="share-btn share-telegram" onclick="shareTelegram()">Telegram</button>
+            <button class="share-btn share-facebook" onclick="shareFacebook()">Facebook</button>
+            <button class="share-btn share-twitter" onclick="shareTwitter()">Twitter</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program Rules -->
+      <div class="section-card">
+        <div class="section-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Program Rules
+        </div>
+
+        <div class="rules-container">
+          <div class="rule-item">
+            <div class="rule-number">1</div>
+            <div class="rule-text">
+              Share your unique <strong>referral code</strong> with friends through social media or direct message.
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-number">2</div>
+            <div class="rule-text">
+              A referral is only counted when your friend <strong>registers using your code</strong> and <strong>activates any plan</strong>.
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-number">3</div>
+            <div class="rule-text">
+              Rewards are unlocked progressively: <strong>Level 1</strong> (3 referrals = $1), <strong>Level 2</strong> (6 referrals = $2), <strong>Level 3</strong> (9 referrals = $3).
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-number">4</div>
+            <div class="rule-text">
+              At <strong>50 referrals</strong>, you'll unlock a special <strong>$13 bonus reward</strong> and advance to higher tiers.
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-number">5</div>
+            <div class="rule-text">
+              Reach <strong>100 referrals</strong> to become a <strong>Team Leader</strong> and earn a <strong>$25 mega reward</strong> plus monthly salary benefits.
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-number">6</div>
+            <div class="rule-text">
+              You must claim each level's reward before progressing to the next level. Rewards don't expire.
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-number">7</div>
+            <div class="rule-text">
+              No limits — invite unlimited people and continue climbing the reward ladder for maximum earnings.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Your Referrals -->
+      <div class="section-card">
+        <div class="section-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+          Your Referrals (<span id="referralCount">0</span>)
+        </div>
+        <div class="referrals-container" id="referralsList"></div>
+      </div>
+
+      <!-- FAQ Accordion -->
+      <div class="section-card">
+        <div class="section-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Frequently Asked Questions
+        </div>
+
+        <div class="accordion">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">How does the multi-level reward system work?</div>
+              <div class="accordion-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Our system rewards you at multiple milestones. Level 1 unlocks at 3 referrals ($1), Level 2 at 6 referrals ($2), Level 3 at 9 referrals ($3), and so on. Each level must be claimed before moving to the next, giving you complete control over your earnings.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">When can I claim my rewards?</div>
+              <div class="accordion-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Once you reach the required number of active referrals for a level, the claim button activates instantly. Your reward is added to your wallet immediately upon claiming, and you can withdraw it anytime.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">What happens at 50 and 100 referrals?</div>
+              <div class="accordion-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                At 50 referrals, you unlock a special $13 bonus reward. When you reach 100 referrals, you'll receive a $25 mega reward and become an official Team Leader with additional monthly salary benefits and exclusive company gifts.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">Is there a limit to earnings?</div>
+              <div class="accordion-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Absolutely no limit! You can invite unlimited users and progress through all reward levels. The more you refer, the more you earn. Our top earners continue to benefit from ongoing Team Leader positions and salary packages.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <div class="nav-item" onclick="window.location.href='dashboard.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+    </svg>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='plan.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+    </svg>
+    <span>Plans</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='task.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+    </svg>
+    <span>Tasks</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='withdraw.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+    <span>Withdraw</span>
+  </div>
+
+  <div class="nav-item active" onclick="window.location.href='referral.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+    <span>Referral</span>
+  </div>
+
+  <div class="nav-item" onclick="window.location.href='profile.html'">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+    </svg>
+    <span>Profile</span>
+  </div>
+</div>
+
+<script>
+// Reward levels configuration (matches backend)
+const rewardLevels = [
+  { level: 1, referrals: 3, reward: 1 },
+  { level: 2, referrals: 6, reward: 2 },
+  { level: 3, referrals: 9, reward: 3 },
+  { level: 4, referrals: 12, reward: 4 },
+  { level: 5, referrals: 50, reward: 13 },
+  { level: 6, referrals: 100, reward: 25 }
+];
+
+// Theme Management
+function toggleTheme() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+
+  const icon = document.getElementById('themeIcon');
+  if (newTheme === 'dark') {
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+  } else {
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+  }
+}
+
+// Initialize theme
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+if (savedTheme === 'dark') {
+  const icon = document.getElementById('themeIcon');
+  icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+}
+
+// Accordion Toggle
+function toggleAccordion(element) {
+  const item = element.parentElement;
+  const content = item.querySelector('.accordion-content');
+  const isActive = item.classList.contains('active');
+
+  document.querySelectorAll('.accordion-item').forEach(acc => {
+    acc.classList.remove('active');
+    acc.querySelector('.accordion-content').style.maxHeight = '0';
+  });
+
+  if (!isActive) {
+    item.classList.add('active');
+    content.style.maxHeight = content.scrollHeight + 'px';
+  }
+}
+
+// ======================
+// ✅ Backend API Base Setup - CHANGED
+// ======================
+const API_BASE = 'https://crx-auth.onrender.com';  // 👈 CHANGED FROM DYNAMIC TO FIXED URL
+
+// ======================
+// Data Management
+// ======================
+document.addEventListener("DOMContentLoaded", function () {
+  const token = sessionStorage.getItem('token');
+  let userData = null;
+  let referralLink = '';
+
+  if (!token) {
+    alert('Please login first');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // ✅ CHANGE #1: Load referral data API
+  async function loadReferralData() {
+    try {
+      const res = await fetch(`${API_BASE}/api/referral/data`, {  // Uses API_BASE
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          alert('Session expired. Please login again.');
+          sessionStorage.removeItem('token');
+          window.location.href = 'login.html';
+          return;
+        }
+        throw new Error('Failed to load data');
+      }
+
+      const data = await res.json();
+      userData = data;
+
+      document.getElementById('loadingSkeleton')?.classList.add('hidden');
+      document.getElementById('mainContent')?.classList.remove('hidden');
+
+      safeSetText('referralCode', data.referralCode || '------');
+      safeSetText('totalReferrals', data.referralCount || 0);
+      safeSetText('referralCount', data.referrals?.length || 0);
+
+      const lastLevel = data.lastProcessedLevel || 0;
+      const totalEarned = rewardLevels
+        .filter(l => l.level <= lastLevel)
+        .reduce((sum, l) => sum + l.reward, 0);
+      safeSetText('totalEarned', totalEarned);
+      safeSetText('currentLevel', lastLevel);
+
+      const nextLevel = rewardLevels.find(l => l.level === lastLevel + 1);
+      if (nextLevel) safeSetText('nextReward', nextLevel.reward);
+
+      referralLink = `${window.location.origin}/register.html?ref=${data.referralCode}`;
+      safeSetText('shareLink', referralLink);
+
+      updateProgress();
+      renderLevelsGrid();
+      renderReferralsList(data.referrals || []);
+
+    } catch (e) {
+      console.error('Error loading referral data:', e);
+      document.getElementById('loadingSkeleton')?.classList.add('hidden');
+      document.getElementById('mainContent')?.classList.remove('hidden');
+    }
+  }
+
+  function safeSetText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  // Update reward progress
+  function updateProgress() {
+    if (!userData) return;
+
+    const totalReferrals = userData.referralCount || 0;
+    const lastLevel = userData.lastProcessedLevel || 0;
+    const nextLevel = rewardLevels.find(l => l.level === lastLevel + 1);
+
+    const claimBtn = document.getElementById('claimBtn');
+    const textEl = document.getElementById('progressText');
+    const barEl = document.getElementById('progressBar');
+
+    if (!nextLevel) {
+      claimBtn && (claimBtn.className = 'claim-btn locked', claimBtn.innerHTML = '<span>🎉 All Levels Completed!</span>');
+      textEl && (textEl.textContent = 'Congratulations! You have unlocked all reward levels.');
+      barEl && (barEl.style.width = '100%');
+      return;
+    }
+
+    const remaining = Math.max(0, nextLevel.referrals - totalReferrals);
+    const progress = Math.min(100, (totalReferrals / nextLevel.referrals) * 100);
+
+    safeSetText('currentProgress', totalReferrals);
+    safeSetText('targetReferrals', nextLevel.referrals);
+    safeSetText('levelBadge', `Level ${nextLevel.level}`);
+    safeSetText('levelRewardAmount', `$${nextLevel.reward.toFixed(2)}`);
+    barEl && (barEl.style.width = progress + '%');
+
+    if (totalReferrals >= nextLevel.referrals) {
+      claimBtn && (claimBtn.className = 'claim-btn active', claimBtn.innerHTML = `<span>🎁 Claim Level ${nextLevel.level} Reward ($${nextLevel.reward})</span>`, claimBtn.onclick = claimReward);
+      textEl && (textEl.textContent = `Level ${nextLevel.level} reward available! Click to claim $${nextLevel.reward}`);
+    } else {
+      claimBtn && (claimBtn.className = 'claim-btn locked', claimBtn.innerHTML = `<span>Need ${remaining} more referral${remaining !== 1 ? 's' : ''}</span>`, claimBtn.onclick = null);
+      textEl && (textEl.textContent = `Invite ${remaining} more friend${remaining !== 1 ? 's' : ''} to unlock Level ${nextLevel.level} ($${nextLevel.reward})`);
+    }
+  }
+
+  // Render levels grid
+  function renderLevelsGrid() {
+    const gridEl = document.getElementById('levelsGrid');
+    if (!gridEl || !userData) return;
+
+    const totalReferrals = userData.referralCount || 0;
+    const lastLevel = userData.lastProcessedLevel || 0;
+
+    let html = '';
+    rewardLevels.forEach(level => {
+      const isCompleted = level.level <= lastLevel;
+      const isCurrent = level.level === lastLevel + 1 && totalReferrals >= level.referrals;
+
+      html += `
+        <div class="level-item ${isCompleted ? 'completed' : isCurrent ? 'current' : ''}">
+          ${isCompleted ? '<div class="checkmark"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>' : ''}
+          <div class="level-item-header">
+            <div class="level-number">Level ${level.level}</div>
+            <div class="level-status ${isCompleted ? 'completed' : isCurrent ? 'current' : 'locked'}">
+              ${isCompleted ? 'Completed' : isCurrent ? 'Ready' : 'Locked'}
+            </div>
+          </div>
+          <div class="level-details">
+            <div class="level-target">Target: <strong>${level.referrals} referrals</strong></div>
+            <div class="level-reward-amount">$${level.reward}</div>
+          </div>
+        </div>
+      `;
+    });
+
+    gridEl.innerHTML = html;
+  }
+
+  // Render referral list
+  function renderReferralsList(referrals) {
+    const listEl = document.getElementById('referralsList');
+    if (!listEl) return;
+
+    if (!referrals || referrals.length === 0) {
+      listEl.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+        </div>
+        <div class="empty-text">No referrals yet. Share your code to start earning rewards.</div>
+      </div>`;
+      return;
+    }
+
+    let html = '';
+    referrals.forEach(ref => {
+      const initial = ref.name ? ref.name.charAt(0).toUpperCase() : 'U';
+      const joinDate = ref.createdAt ? new Date(ref.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recently';
+      const badgeText = ref.activePlan ? 'Active' : 'Pending';
+
+      html += `<div class="referral-item">
+        <div class="referral-avatar">${initial}</div>
+        <div class="referral-info">
+          <div class="referral-name">${ref.name || 'User'}</div>
+          <div class="referral-date">Joined: ${joinDate}</div>
+        </div>
+        <div class="referral-badge">${badgeText}</div>
+      </div>`;
+    });
+    listEl.innerHTML = html;
+  }
+
+  // ✅ CHANGE #2: Claim reward API
+  async function claimReward() {
+    if (!confirm('Claim your reward? This will be added to your wallet instantly.')) return;
+
+    const claimBtn = document.getElementById('claimBtn');
+    if (claimBtn) claimBtn.disabled = true, claimBtn.className = 'claim-btn locked', claimBtn.innerHTML = '<span>Processing...</span>';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/referral/claim`, {  // Uses API_BASE
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+      });
+
+      if (!res.ok) throw new Error('Failed to claim reward');
+
+      const data = await res.json();
+      if (data.success) {
+        showToast(`${data.message} - $${data.rewardAmount} added to your wallet!`);
+        await loadReferralData();
+      } else {
+        showToast(data.message || 'Error claiming reward');
+      }
+    } catch (e) {
+      console.error(e);
+      showToast('Error claiming reward. Please try again.');
+    } finally {
+      claimBtn && (claimBtn.disabled = false);
+    }
+  }
+
+  // Copy referral code
+  window.copyCode = function() {
+    const codeEl = document.getElementById('referralCode');
+    if (!codeEl) return;
+    const code = codeEl.textContent;
+    navigator.clipboard?.writeText(code).then(() => showToast('Referral code copied')).catch(() => {
+      const textarea = document.createElement('textarea'); textarea.value = code; textarea.style.position = 'fixed'; textarea.style.opacity = '0';
+      document.body.appendChild(textarea); textarea.select();
+      try { document.execCommand('copy'); showToast('Code copied'); } catch { showToast('Failed to copy'); }
+      document.body.removeChild(textarea);
+    });
+  };
+
+  function showToast(message) {
+    const existing = document.querySelector('.toast'); if (existing) existing.remove();
+    const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+  }
+
+  // Share functions
+  window.shareWhatsApp = function() {
+    if (!userData) return;
+    const msg = `🎯 Join CRX Earning! Use my referral code: ${userData.referralCode}\nSign up: ${referralLink}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
+  window.shareTelegram = function() {
+    if (!userData) return;
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(userData.referralCode)}`, '_blank');
+  };
+
+  window.shareFacebook = function() {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`, '_blank');
+  };
+  
+  window.shareTwitter = function() {
+    if (!userData) return;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(userData.referralCode)}&url=${encodeURIComponent(referralLink)}`, '_blank');
+  };
+
+  // Initial load + auto-refresh every 30s
+  loadReferralData();
+  setInterval(loadReferralData, 30000);
+});
+</script>
+</body>
+</html>

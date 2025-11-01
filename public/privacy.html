@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Terms & Conditions and Privacy Policy for CRX - Crypto Investment Platform">
+<meta name="keywords" content="terms, privacy policy, CRX, crypto investment">
+<meta name="author" content="Bano Digital Hub">
+<meta name="theme-color" content="#6366f1">
+<title>CRX - Terms & Privacy Policy</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #8b5cf6;
+  --bg-main: #0a0a0a;
+  --bg-card: rgba(18, 18, 18, 0.95);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --border: rgba(99, 102, 241, 0.2);
+  --input-bg: rgba(30, 30, 30, 0.8);
+  --success: #10b981;
+  --error: #ef4444;
+  --glow: rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="light"] {
+  --bg-main: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border: rgba(99, 102, 241, 0.3);
+  --input-bg: rgba(248, 250, 252, 0.9);
+  --glow: rgba(99, 102, 241, 0.08);
+}
+
+[data-theme="ocean"] {
+  --primary: #06b6d4;
+  --primary-dark: #0891b2;
+  --secondary: #0284c7;
+  --glow: rgba(6, 182, 212, 0.15);
+}
+
+[data-theme="sunset"] {
+  --primary: #f59e0b;
+  --primary-dark: #d97706;
+  --secondary: #f97316;
+  --glow: rgba(245, 158, 11, 0.15);
+}
+
+[data-theme="forest"] {
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --secondary: #14b8a6;
+  --glow: rgba(16, 185, 129, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+  background: var(--bg-main);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  transition: background 0.3s ease;
+  color: var(--text-primary);
+}
+
+.bg-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 20s infinite alternate ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow:nth-child(2) {
+  top: 60%;
+  left: 70%;
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+.theme-toggle-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  animation: slideInRight 0.6s ease-out;
+}
+
+.theme-toggle-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px var(--glow);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: 58px;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 200px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.theme-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.theme-option:hover {
+  background: var(--input-bg);
+}
+
+.theme-option.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+}
+
+.theme-option i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.theme-option .check-icon {
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.theme-option.active .check-icon {
+  opacity: 1;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.home-btn a {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.home-btn a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px var(--glow);
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 20px 80px;
+  position: relative;
+  z-index: 10;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--glow);
+  animation: logoFloat 3s ease-in-out infinite;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo i {
+  font-size: 36px;
+  color: white;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.tab-navigation {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 12px 32px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
+}
+
+.tab-btn:hover {
+  border-color: var(--primary);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 6px 20px var(--glow);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.content-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.content-card h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+
+.content-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 32px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content-card h3 i {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.content-card p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+.content-card ul {
+  list-style: none;
+  margin-bottom: 16px;
+}
+
+.content-card ul li {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 12px;
+  padding-left: 28px;
+  position: relative;
+  font-size: 15px;
+}
+
+.content-card ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.last-updated {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 32px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.last-updated strong {
+  color: var(--text-primary);
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .home-btn, .theme-toggle-wrapper {
+    top: 16px;
+  }
+
+  .home-btn {
+    left: 16px;
+  }
+
+  .theme-toggle-wrapper {
+    right: 16px;
+  }
+
+  .home-btn a, .theme-toggle-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .container {
+    padding: 90px 16px 60px;
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .content-card {
+    padding: 32px 24px;
+  }
+
+  .content-card h2 {
+    font-size: 22px;
+  }
+
+  .content-card h3 {
+    font-size: 17px;
+  }
+
+  .tab-btn {
+    padding: 10px 24px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-btn, .theme-toggle-wrapper {
+    top: 12px;
+  }
+
+  .home-btn {
+    left: 12px;
+  }
+
+  .theme-toggle-wrapper {
+    right: 12px;
+  }
+
+  .home-btn a, .theme-toggle-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 17px;
+  }
+
+  .container {
+    padding: 80px 12px 50px;
+  }
+
+  .header {
+    margin-bottom: 40px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .tab-navigation {
+    gap: 12px;
+  }
+
+  .tab-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .content-card {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .content-card h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .content-card h3 {
+    font-size: 16px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  .content-card p,
+  .content-card ul li {
+    font-size: 14px;
+  }
+
+  .last-updated {
+    font-size: 13px;
+    padding: 14px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="glow" style="top: 20%; left: 10%;"></div>
+<div class="glow"></div>
+
+<div class="home-btn">
+  <a href="dashboard.html" id="homeLink" aria-label="Go to home">
+    <i class="fas fa-home"></i>
+  </a>
+</div>
+
+<div class="theme-toggle-wrapper">
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Change theme">
+    <i class="fas fa-palette"></i>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown">
+    <div class="theme-option active" data-theme="dark">
+      <i class="fas fa-moon"></i>
+      <span>Dark</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="light">
+      <i class="fas fa-sun"></i>
+      <span>Light</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="ocean">
+      <i class="fas fa-water"></i>
+      <span>Ocean</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="sunset">
+      <i class="fas fa-fire"></i>
+      <span>Sunset</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+    <div class="theme-option" data-theme="forest">
+      <i class="fas fa-leaf"></i>
+      <span>Forest</span>
+      <i class="fas fa-check check-icon"></i>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">
+      <img src="images/earn.jpeg" alt="CRX Logo" onerror="this.parentElement.innerHTML='<i class=\'fas fa-shield-alt\' style=\'font-size:36px;color:white;\'></i>'">
+    </div>
+    <h1>CRX Legal Documents</h1>
+    <p>Your privacy and rights matter to us</p>
+  </div>
+
+  <div class="tab-navigation">
+    <button class="tab-btn active" onclick="switchTab('terms')">
+      <i class="fas fa-file-contract"></i> Terms & Conditions
+    </button>
+    <button class="tab-btn" onclick="switchTab('privacy')">
+      <i class="fas fa-shield-alt"></i> Privacy Policy
+    </button>
+  </div>
+
+  <!-- Terms & Conditions Tab -->
+  <div class="tab-content active" id="terms">
+    <div class="content-card">
+      <div class="last-updated">
+        <strong>Last Updated:</strong> November 1, 2025
+      </div>
+
+      <h2>Terms & Conditions – CRX.com</h2>
+      
+      <p>Welcome to CRX.com, a crypto investment and affiliate platform based in Pakistan. By using our website or services, you agree to these Terms and Conditions.</p>
+
+      <h3><i class="fas fa-user-check"></i> 1. General Use</h3>
+      <p>By registering or investing on CRX.com, you confirm that you are at least 18 years old and have read, understood, and accepted these Terms. If you disagree with any part of these Terms, please stop using the platform immediately.</p>
+
+      <h3><i class="fas fa-cogs"></i> 2. Our Services</h3>
+      <p>CRX.com provides crypto investment opportunities in PKR with a profit-sharing system and a referral-based affiliate program. Profit rates are market-based, not fixed or guaranteed, and may change anytime without prior notice.</p>
+
+      <h3><i class="fas fa-exchange-alt"></i> 3. Deposits & Withdrawals</h3>
+      <ul>
+        <li>All deposits and withdrawals are processed through the official methods available on CRX.com.</li>
+        <li>Processing times may vary depending on network and verification requirements.</li>
+        <li>Transaction or network fees (if applicable) are borne by the user.</li>
+        <li>CRX.com reserves the right to verify the identity of users before processing withdrawals.</li>
+      </ul>
+
+      <h3><i class="fas fa-exclamation-triangle"></i> 4. Risk Disclaimer</h3>
+      <p>Crypto investments involve high market volatility and financial risk. By investing, you accept full responsibility for any profit or loss incurred. CRX.com is not liable for any financial losses, technical issues, or market fluctuations.</p>
+
+      <h3><i class="fas fa-users"></i> 5. Affiliate Program</h3>
+      <ul>
+        <li>Users can earn commissions by referring valid investors.</li>
+        <li>Only genuine and active referrals will be rewarded.</li>
+        <li>Any fraudulent, duplicate, or fake referrals will result in termination of the account and loss of earnings.</li>
+        <li>CRX.com reserves the right to review and update the affiliate structure at any time.</li>
+      </ul>
+
+      <h3><i class="fas fa-lock"></i> 6. Account Security</h3>
+      <p>You are solely responsible for protecting your login credentials and account information. CRX.com is not responsible for unauthorized access, misuse, or activity under your account.</p>
+
+      <h3><i class="fas fa-balance-scale"></i> 7. Limitation of Liability</h3>
+      <p>CRX.com, its management, and affiliates shall not be held liable for any direct, indirect, incidental, or consequential damages arising from use of the platform. Your use of the platform is entirely at your own risk.</p>
+
+      <h3><i class="fas fa-edit"></i> 8. Modifications</h3>
+      <p>We may update these Terms and Conditions at any time without prior notice. Continued use of CRX.com after changes are posted means you accept the revised Terms.</p>
+
+      <h3><i class="fas fa-gavel"></i> 9. Governing Law</h3>
+      <p>These Terms are governed by the laws of Pakistan. Any disputes shall be resolved in accordance with Pakistani legal jurisdiction.</p>
+
+      <p style="margin-top: 32px; font-weight: 600; color: var(--text-primary);">By using CRX.com, you acknowledge that you have read, understood, and agreed to these Terms and Conditions.</p>
+    </div>
+  </div>
+
+  <!-- Privacy Policy Tab -->
+  <div class="tab-content" id="privacy">
+    <div class="content-card">
+      <div class="last-updated">
+        <strong>Last Updated:</strong> November 1, 2025
+      </div>
+
+      <h2>Privacy Policy – CRX.com</h2>
+      
+      <p>At CRX.com, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our website and services.</p>
+
+      <h3><i class="fas fa-info-circle"></i> 1. Information We Collect</h3>
+      <p>We may collect the following information:</p>
+      <ul>
+        <li>Personal details (name, email, contact number, wallet address).</li>
+        <li>Account and transaction information.</li>
+        <li>Device and usage data (IP address, browser type, time of access, etc.).</li>
+      </ul>
+
+      <h3><i class="fas fa-tasks"></i> 2. How We Use Your Information</h3>
+      <p>Your data may be used to:</p>
+      <ul>
+        <li>Create and manage your CRX account.</li>
+        <li>Process deposits, withdrawals, and profit-sharing.</li>
+        <li>Send important updates, notifications, or promotional messages.</li>
+        <li>Enhance platform performance, security, and user experience.</li>
+      </ul>
+
+      <h3><i class="fas fa-shield-alt"></i> 3. Data Protection</h3>
+      <p>We use industry-standard security measures (such as encryption and firewalls) to protect your information from unauthorized access. However, no system is 100% secure, and CRX.com cannot guarantee the absolute safety of data transmitted online.</p>
+
+      <h3><i class="fas fa-share-alt"></i> 4. Sharing of Information</h3>
+      <p>We do not sell, rent, or trade your personal data. Information may only be shared with:</p>
+      <ul>
+        <li>Authorized service providers for transaction processing.</li>
+        <li>Government or legal authorities, if required by law.</li>
+      </ul>
+
+      <h3><i class="fas fa-cookie-bite"></i> 5. Cookies</h3>
+      <p>Our website may use cookies to enhance performance, track visits, and improve user experience. You can disable cookies in your browser settings, but some features may not function properly.</p>
+
+      <h3><i class="fas fa-user-shield"></i> 6. User Rights</h3>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Request access to your personal data.</li>
+        <li>Ask for correction or deletion of your information.</li>
+        <li>Contact support to deactivate your account.</li>
+      </ul>
+      <p>CRX.com may retain certain data as required by law or for legal protection.</p>
+
+      <h3><i class="fas fa-link"></i> 7. Third-Party Links</h3>
+      <p>CRX.com may contain links to external websites. We are not responsible for the privacy practices or content of such third-party platforms. Please review their privacy policies before interacting.</p>
+
+      <h3><i class="fas fa-sync-alt"></i> 8. Updates to This Policy</h3>
+      <p>We may update this Privacy Policy periodically. All updates will be posted here, and continued use of CRX.com signifies your acceptance of the revised policy.</p>
+
+      <h3><i class="fas fa-check-circle"></i> 9. Consent</h3>
+      <p>By using CRX.com, you consent to the collection, processing, and use of your personal information as outlined in this Privacy Policy.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  Developed by <a href="https://www.banodigitalhub.pk/" target="_blank" rel="noopener noreferrer">Bano Digital Hub</a>
+</footer>
+
+<script>
+// ==========================
+// 🏠 Home Link Logic
+// ==========================
+window.addEventListener('DOMContentLoaded', () => {
+  const homeLink = document.getElementById('homeLink');
+  const token = sessionStorage.getItem('token');
+  
+  if (token) {
+    homeLink.href = 'dashboard.html';
+  } else {
+    homeLink.href = 'login.html';
+  }
+});
+
+// ==========================
+// 🌙 Theme Management
+// ==========================
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const themeDropdown = document.getElementById('themeDropdown');
+const themeOptions = document.querySelectorAll('.theme-option');
+const body = document.body;
+
+const savedTheme = localStorage.getItem('theme') || 'dark';
+body.setAttribute('data-theme', savedTheme);
+updateActiveTheme(savedTheme);
+
+themeToggleBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  themeDropdown.classList.toggle('active');
+});
+
+document.addEventListener('click', (e) => {
+  if (!themeDropdown.contains(e.target) && e.target !== themeToggleBtn) {
+    themeDropdown.classList.remove('active');
+  }
+});
+
+themeOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    const theme = option.getAttribute('data-theme');
+    body.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateActiveTheme(theme);
+    themeDropdown.classList.remove('active');
+  });
+});
+
+function updateActiveTheme(theme) {
+  themeOptions.forEach(option => {
+    option.classList.toggle('active', option.getAttribute('data-theme') === theme);
+  });
+}
+
+// ==========================
+// 📑 Tab Switching
+// ==========================
+function switchTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Remove active from all buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Show selected tab
+  document.getElementById(tabName).classList.add('active');
+  
+  // Activate button
+  event.target.classList.add('active');
+  
+  // Smooth scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ==========================
+// ✨ Smooth Scroll for Links
+// ==========================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  });
+});
+</script>
+</body>
+</html>
