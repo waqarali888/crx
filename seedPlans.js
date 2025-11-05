@@ -5,7 +5,7 @@ const Plan = require('./models/Plan');
 const plans = [
   { name:"Chain Link", image:"/images/chainlink.jfif", totalInvestment:10, dailyAds:2, dailyProfit:0.5, totalProfit:32.5, durationDays:65 },
   { name:"Ton Coin", image:"/images/toncoin.jfif", totalInvestment:15, dailyAds:3, dailyProfit:1, totalProfit:65, durationDays:65 },
-   { name:"Bitcoin", image:"/images/bitcoin.jfif", totalInvestment:22, dailyAds:4, dailyProfit:1.8, totalProfit:117, durationDays:65 },
+  { name:"Bitcoin", image:"/images/bitcoin.jfif", totalInvestment:22, dailyAds:4, dailyProfit:1.8, totalProfit:117, durationDays:65 },
   { name:"Ethereum", image:"/images/Ethereum.jfif", totalInvestment:50, dailyAds:6, dailyProfit:3.5, totalProfit:227.5, durationDays:65 },
   { name:"Tether (US)", image:"/images/Tether.net", totalInvestment:100, dailyAds:10, dailyProfit:6.25, totalProfit:406.25, durationDays:65 },
   { name:"BNB", image:"/images/BNB.jfif", totalInvestment:200, dailyAds:15, dailyProfit:12.5, totalProfit:812.5, durationDays:65 },

@@ -4,16 +4,24 @@ const Plan = require('../models/Plan');
 const User = require('../models/User');
 const auth = require('../middleware/authMiddleware'); // JWT middleware
 
-// Get all plans
+// Get all plans (sorted by price low → high)
 router.get('/', async (req, res) => {
   try {
-    const plans = await Plan.find({});
-    res.json(plans);
+    // ✨ Always return plans in proper order (ascending)
+    const plans = await Plan.find({}).sort({ totalInvestment: 1 });
+
+    // Extra safety: agar plans empty hue to clear message
+    if (!plans.length) {
+      return res.status(404).json({ message: 'No plans found' });
+    }
+
+    res.status(200).json(plans);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    console.error('❌ Error fetching plans:', err.message);
+    res.status(500).json({ message: 'Server error while fetching plans' });
   }
 });
+
 
 // Get plan by ID
 router.get('/:id', async (req, res) => {
