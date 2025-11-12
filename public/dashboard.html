@@ -1044,6 +1044,114 @@ body {
     display: none;
   }
 }
+
+/* Floating Helpline Button */
+.floating-help {
+  position: fixed;
+  bottom: 90px;
+  left: 20px;
+  z-index: 150;
+}
+
+.help-main-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.help-main-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(99, 102, 241, 0.6);
+}
+
+.help-main-btn svg {
+  width: 28px;
+  height: 28px;
+  stroke: #fff;
+  transition: transform 0.3s ease;
+}
+
+.help-main-btn.active svg {
+  transform: rotate(45deg);
+}
+
+.help-options {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.help-options.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.help-option {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  transform: scale(0);
+}
+
+.help-options.active .help-option {
+  transform: scale(1);
+}
+
+.help-options.active .help-option:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.help-options.active .help-option:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.help-option:hover {
+  transform: scale(1.15);
+}
+
+.help-whatsapp {
+  background: #25D366;
+}
+
+.help-email {
+  background: #EA4335;
+}
+
+.help-option svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+@media (min-width: 769px) {
+  /* ...existing code... */
+  
+  .floating-help {
+    left: 30px;
+    bottom: 30px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1404,7 +1512,26 @@ body {
 </div>
 
 </div>
-
+<!-- Floating Helpline Button -->
+<div class="floating-help">
+  <div class="help-options" id="helpOptions">
+    <button class="help-option help-whatsapp" onclick="openWhatsApp()" title="WhatsApp Support">
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </button>
+    <button class="help-option help-email" onclick="openEmail()" title="Email Support">
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+      </svg>
+    </button>
+  </div>
+  <button class="help-main-btn" onclick="toggleHelp()" id="helpMainBtn">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+    </svg>
+  </button>
+</div>
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
   <div class="nav-item active">
@@ -1475,6 +1602,40 @@ const withdrawals = [
   { user: "mark***56", email: "ma***@gmail.com", amount: 156.25 }
 ];
 
+// ==========================
+// Toggle Helpline Options
+// ==========================
+function toggleHelp() {
+  const options = document.getElementById('helpOptions');
+  const mainBtn = document.getElementById('helpMainBtn');
+  options.classList.toggle('active');
+  mainBtn.classList.toggle('active');
+}
+
+// Close help options when clicking outside
+document.addEventListener('click', function(e) {
+  const helpContainer = document.querySelector('.floating-help');
+  if (helpContainer && !helpContainer.contains(e.target)) {
+    document.getElementById('helpOptions').classList.remove('active');
+    document.getElementById('helpMainBtn').classList.remove('active');
+  }
+});
+
+// ==========================
+// Open WhatsApp
+// ==========================
+function openWhatsApp() {
+  window.open('https://wa.me/923233294217?text=Hello%20Support%20Team%2C%20I%20need%20help%20with%20my%20account.', '_blank');
+  toggleHelp();
+}
+
+// ==========================
+// Open Email
+// ==========================
+function openEmail() {
+  window.location.href = 'mailto:support@crx.com?subject=Support Request&body=Hello Support Team, I need help with my account.';
+  toggleHelp();
+}
 // ==========================
 // Theme Toggle
 // ==========================

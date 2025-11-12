@@ -21,13 +21,28 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// ------------------- USER UPLOAD -------------------
+// ------------------- USER UPLOAD -------------------// ------------------- USER UPLOAD -------------------
 router.post('/upload', auth, upload.single('proof'), async (req, res) => {
   try {
     const { planId, accountNumber } = req.body;
+
     if (!req.file)
       return res.status(400).json({ message: 'No file uploaded' });
 
+    // 🔹 Check if user already has a pending or approved request
+    const existingRequest = await PlanRequest.findOne({
+      user: req.userId,
+      status: { $in: ['pending', 'approved'] }
+    });
+
+    if (existingRequest) {
+      return res.status(400).json({
+        message:
+          'You already have a pending or active plan request. Please wait for admin response.'
+      });
+    }
+
+    // 🔹 Create new plan request
     const newRequest = new PlanRequest({
       user: req.userId,
       plan: planId,
@@ -39,9 +54,7 @@ router.post('/upload', auth, upload.single('proof'), async (req, res) => {
     res.json({ message: 'Request submitted successfully' });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ message: 'Server error', error: err.message });
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 
