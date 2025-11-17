@@ -1100,6 +1100,163 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+/* ========================================
+   FLOATING CONTACT BUTTON - START
+   ======================================== */
+
+/* Main floating container */
+.floating-contact {
+  position: fixed;
+  right: 16px;
+  bottom: 80px;
+  z-index: 1000;
+}
+
+/* Toggle button (main circular button) */
+.contact-toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* Pulse ring animation for toggle button */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+/* Toggle button hover effect */
+.contact-toggle:hover {
+  transform: scale(1.1) rotate(90deg);
+}
+
+/* Toggle button icon */
+.contact-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: #fff;
+  transition: transform 0.3s ease;
+}
+
+/* Toggle button active state icon rotation */
+.contact-toggle.active svg {
+  transform: rotate(45deg);
+}
+
+/* Options container (WhatsApp, Email, Support buttons) */
+.contact-options {
+  position: absolute;
+  bottom: 65px;
+  right: 0;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  animation: slideUp 0.3s ease;
+}
+
+/* Slide up animation for options */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Show options when active */
+.contact-options.active {
+  display: flex;
+}
+
+/* Individual contact option button */
+.contact-option {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+/* Tooltip for contact options */
+.contact-option::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: 55px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+/* Show tooltip on hover */
+.contact-option:hover::before {
+  opacity: 1;
+}
+
+/* WhatsApp button color */
+.contact-option.whatsapp {
+  background: #25D366;
+}
+
+/* Email button color */
+.contact-option.email {
+  background: #EA4335;
+}
+
+/* Support button color */
+.contact-option.support {
+  background: #6366f1;
+}
+
+/* Contact option hover effect */
+.contact-option:hover {
+  transform: scale(1.15);
+}
+
+/* Contact option icons */
+.contact-option svg {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+/* ========================================
+   FLOATING CONTACT BUTTON - END
+   ======================================== */
+
 </style>
 </head>
 <body>
@@ -1109,11 +1266,12 @@ body {
   <div class="sidebar-logo">
     <div class="sidebar-logo-content">
       <div class="logo">
-        <img src="../images/earn.jpeg" alt="CRX Logo" id="sidebarLogoImg">
+        <img src="./images/earn.jpeg" alt="CRX Logo" id="sidebarLogoImg">
       </div>
       <div class="brand-name">CRX</div>
     </div>
   </div>
+  
 
   <div class="sidebar-nav">
     <button class="sidebar-nav-item" onclick="window.location.href='dashboard.html'">
@@ -1164,6 +1322,35 @@ body {
   </div>
 </div>
 
+
+<!-- Floating Contact Button -->
+<div class="floating-contact">
+  <div class="contact-options" id="contactOptions">
+    <button class="contact-option whatsapp" data-tooltip="WhatsApp" onclick="window.open('https://wa.me/923233294217?text=Hello%20CRX%20Team', '_blank')">
+      <svg viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </button>
+  <button class="contact-option email" data-tooltip="Email"
+      onclick="window.location.href='mailto:isabellamandiscrx@gmail.com'">
+      <svg viewBox="0 0 24 24">
+        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+      </svg>
+    </button>
+    <button class="contact-option support" data-tooltip="Support Page" onclick="window.location.href='support.html'">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+    </button>
+  </div>
+  <button class="contact-toggle" id="contactToggle" onclick="toggleContact()">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+    </svg>
+  </button>
+</div>
+
+
 <div class="main-layout">
   <div class="main-content-wrapper">
 
@@ -1173,7 +1360,7 @@ body {
     <div class="header-content">
       <div class="logo-section">
         <div class="logo">
-          <img src="../images/earn.jpeg" alt="CRX Logo" id="headerLogoImg">
+          <img src="./images/earn.jpeg" alt="CRX Logo" id="headerLogoImg">
         </div>
         <div class="brand-name">CRX</div>
       </div>
@@ -1403,13 +1590,11 @@ body {
     </svg>
     <span>Profile</span>
   </div>
-</div>
-
-<script>
+</div><script>
 // ==========================
 // 🌐 API BASE URL (Central for future changes)
 // ==========================
-const API_BASE = 'https://crx-auth.onrender.com'; // ← Future me sirf yahan change karna
+const API_BASE = 'https://crx-7-zjgj.onrender.com'; // ← Updated Render backend URL
 
 let hasActivePlan = false;
 
@@ -1441,30 +1626,47 @@ if (savedTheme === 'dark') {
   icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
 }
 
+// Toggle Contact Options
+function toggleContact() {
+  const options = document.getElementById('contactOptions');
+  const toggle = document.getElementById('contactToggle');
+  options.classList.toggle('active');
+  toggle.classList.toggle('active');
+}
+
+// Close contact options when clicking outside
+document.addEventListener('click', function(e) {
+  const contactBtn = document.querySelector('.floating-contact');
+  if (contactBtn && !contactBtn.contains(e.target)) {
+    document.getElementById('contactOptions').classList.remove('active');
+    document.getElementById('contactToggle').classList.remove('active');
+  }
+});
+
 // ==========================
 // Load Plans & User Info
 // ==========================
 async function loadPlans() {
   const token = sessionStorage.getItem('token');
   if (!token) {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
     return;
   }
 
   try {
-    const resPlans = await fetch(`${API_BASE}/api/plans`, { // ← API_BASE used
+    const resPlans = await fetch(`${API_BASE}/api/plans`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     
     if (resPlans.status === 401) {
       sessionStorage.removeItem('token');
-      window.location.href = 'login.html';
+      window.location.href = 'index.html';
       return;
     }
     
     const plans = await resPlans.json();
 
-    const resUser = await fetch(`${API_BASE}/api/auth/dashboard`, { // ← API_BASE used
+    const resUser = await fetch(`${API_BASE}/api/auth/dashboard`, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const user = await resUser.json();
@@ -1493,15 +1695,15 @@ async function loadPlans() {
           <div class="plan-details">
             <div class="detail-item">
               <div class="detail-label">Investment</div>
-              <div class="detail-value">${user.activePlan.totalInvestment}$</div>
+              <div class="detail-value">${user.activePlan.totalInvestment} Rs.</div>
             </div>
             <div class="detail-item">
               <div class="detail-label">Daily Profit</div>
-              <div class="detail-value">${user.activePlan.dailyProfit}$</div>
+              <div class="detail-value">${user.activePlan.dailyProfit} Rs.</div>
             </div>
             <div class="detail-item">
               <div class="detail-label">Total Profit</div>
-              <div class="detail-value">${user.activePlan.totalProfit}$</div>
+              <div class="detail-value">${user.activePlan.totalProfit} Rs.</div>
             </div>
             <div class="detail-item">
               <div class="detail-label">Expires</div>
@@ -1533,7 +1735,7 @@ async function loadPlans() {
           </div>
           <div class="plan-card-title">
             <h4>${p.name}</h4>
-            <div class="plan-investment">${p.totalInvestment.toLocaleString()}$</div>
+            <div class="plan-investment">${p.totalInvestment.toLocaleString()} Rs.</div>
           </div>
         </div>
         <div class="plan-stats">
@@ -1543,11 +1745,11 @@ async function loadPlans() {
           </div>
           <div class="stat-box">
             <div class="stat-label">Daily Profit</div>
-            <div class="stat-value">${p.dailyProfit}$</div>
+            <div class="stat-value">${p.dailyProfit} Rs.</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Total Profit</div>
-            <div class="stat-value">${p.totalProfit}$</div>
+            <div class="stat-value">${p.totalProfit} Rs.</div>
           </div>
           <div class="stat-box">
             <div class="stat-label">Duration</div>
@@ -1630,7 +1832,7 @@ document.getElementById('proofForm').addEventListener('submit', async (e) => {
   formData.append('proof', proofImage);
 
   try {
-    const res = await fetch(`${API_BASE}/api/plan-requests/upload`, { // ← API_BASE used
+    const res = await fetch(`${API_BASE}/api/plan-requests/upload`, {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + token },
       body: formData
@@ -1658,6 +1860,8 @@ document.getElementById('purchaseModal').addEventListener('click', function(e) {
 // ==========================
 loadPlans();
 </script>
+
+
 
 </body>
 </html>

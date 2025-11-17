@@ -1093,14 +1093,12 @@ body {
 }
 </style>
 </head>
-<body>
-
-<!-- Desktop Sidebar -->
+<body><!-- Desktop Sidebar -->
 <div class="desktop-sidebar">
   <div class="sidebar-logo">
     <div class="sidebar-logo-content">
       <div class="logo">
-        <img src="../images/earn.jpeg" alt="CRX Logo">
+        <img src="./images/earn.jpeg" alt="CRX Logo">
       </div>
       <div class="brand-name">CRX</div>
     </div>
@@ -1160,7 +1158,7 @@ body {
   <div class="header-content">
     <div class="logo-section">
       <div class="logo">
-        <img src="../images/earn.jpeg" alt="CRX Logo">
+        <img src="./images/earn.jpeg" alt="CRX Logo">
       </div>
       <div class="brand-name">CRX</div>
     </div>
@@ -1216,7 +1214,7 @@ body {
         
         <div class="stat-card">
           <div class="stat-label">Total Earned</div>
-          <div class="stat-value">$<span id="totalEarned">0</span></div>
+          <div class="stat-value">Rs. <span id="totalEarned">0</span></div>
         </div>
 
         <div class="stat-card">
@@ -1226,7 +1224,7 @@ body {
 
         <div class="stat-card">
           <div class="stat-label">Next Reward</div>
-          <div class="stat-value">$<span id="nextReward">1</span></div>
+          <div class="stat-value">Rs. <span id="nextReward">290</span></div>
         </div>
       </div>
 
@@ -1234,7 +1232,7 @@ body {
       <div class="level-card" id="currentLevelCard">
         <div class="level-header">
           <div class="level-badge" id="levelBadge">Level 1</div>
-          <div class="level-reward" id="levelRewardAmount">$1.00</div>
+          <div class="level-reward" id="levelRewardAmount">Rs. 290.00</div>
         </div>
         
         <div class="progress-info">
@@ -1322,21 +1320,21 @@ body {
           <div class="rule-item">
             <div class="rule-number">3</div>
             <div class="rule-text">
-              Rewards are unlocked progressively: <strong>Level 1</strong> (3 referrals = $1), <strong>Level 2</strong> (6 referrals = $2), <strong>Level 3</strong> (9 referrals = $3).
+              Rewards are unlocked progressively: <strong>Level 1</strong> (3 referrals = Rs. 290), <strong>Level 2</strong> (6 referrals = Rs. 580), <strong>Level 3</strong> (9 referrals = Rs. 870).
             </div>
           </div>
 
           <div class="rule-item">
             <div class="rule-number">4</div>
             <div class="rule-text">
-              At <strong>50 referrals</strong>, you'll unlock a special <strong>$13 bonus reward</strong> and advance to higher tiers.
+              At <strong>50 referrals</strong>, you'll unlock a special <strong>Rs. 3,770 bonus reward</strong> and advance to higher tiers.
             </div>
           </div>
 
           <div class="rule-item">
             <div class="rule-number">5</div>
             <div class="rule-text">
-              Reach <strong>100 referrals</strong> to become a <strong>Team Leader</strong> and earn a <strong>$25 mega reward</strong> plus monthly salary benefits.
+              Reach <strong>100 referrals</strong> to become a <strong>Team Leader</strong> and earn a <strong>Rs. 7,250 mega reward</strong> plus monthly salary benefits.
             </div>
           </div>
 
@@ -1388,7 +1386,7 @@ body {
             </div>
             <div class="accordion-content">
               <div class="accordion-body">
-                Our system rewards you at multiple milestones. Level 1 unlocks at 3 referrals ($1), Level 2 at 6 referrals ($2), Level 3 at 9 referrals ($3), and so on. Each level must be claimed before moving to the next, giving you complete control over your earnings.
+                Our system rewards you at multiple milestones. Level 1 unlocks at 3 referrals (Rs. 290), Level 2 at 6 referrals (Rs. 580), Level 3 at 9 referrals (Rs. 870), and so on. Each level must be claimed before moving to the next, giving you complete control over your earnings.
               </div>
             </div>
           </div>
@@ -1420,7 +1418,7 @@ body {
             </div>
             <div class="accordion-content">
               <div class="accordion-body">
-                At 50 referrals, you unlock a special $13 bonus reward. When you reach 100 referrals, you'll receive a $25 mega reward and become an official Team Leader with additional monthly salary benefits and exclusive company gifts.
+                At 50 referrals, you unlock a special Rs. 3,770 bonus reward. When you reach 100 referrals, you'll receive a Rs. 7,250 mega reward and become an official Team Leader with additional monthly salary benefits and exclusive company gifts.
               </div>
             </div>
           </div>
@@ -1493,15 +1491,28 @@ body {
 </div>
 
 <script>
-// Reward levels configuration (matches backend)
+// ✅ CONVERSION RATE: 1 USD = 290 PKR
+const USD_TO_PKR = 290;
+
+// Reward levels configuration - NOW IN PKR (backend me dollar hai, frontend pe PKR show karenge)
 const rewardLevels = [
-  { level: 1, referrals: 3, reward: 1 },
-  { level: 2, referrals: 6, reward: 2 },
-  { level: 3, referrals: 9, reward: 3 },
-  { level: 4, referrals: 12, reward: 4 },
-  { level: 5, referrals: 50, reward: 13 },
-  { level: 6, referrals: 100, reward: 25 }
+  { level: 1, referrals: 3, reward: 1, rewardPKR: 290 },      // $1 = Rs. 290
+  { level: 2, referrals: 6, reward: 2, rewardPKR: 580 },      // $2 = Rs. 580
+  { level: 3, referrals: 9, reward: 3, rewardPKR: 870 },      // $3 = Rs. 870
+  { level: 4, referrals: 12, reward: 4, rewardPKR: 1160 },    // $4 = Rs. 1,160
+  { level: 5, referrals: 50, reward: 13, rewardPKR: 3770 },   // $13 = Rs. 3,770
+  { level: 6, referrals: 100, reward: 25, rewardPKR: 7250 }   // $25 = Rs. 7,250
 ];
+
+// Helper function to convert USD to PKR
+function convertToPKR(usdAmount) {
+  return Math.round(usdAmount * USD_TO_PKR);
+}
+
+// Helper function to format PKR with commas
+function formatPKR(amount) {
+  return amount.toLocaleString('en-PK');
+}
 
 // Theme Management
 function toggleTheme() {
@@ -1544,14 +1555,10 @@ function toggleAccordion(element) {
   }
 }
 
-// ======================
-// ✅ Backend API Base Setup - CHANGED
-// ======================
-const API_BASE = 'https://crx-auth.onrender.com';  // 👈 CHANGED FROM DYNAMIC TO FIXED URL
+// Backend API Base Setup
+const API_BASE = 'https://crx-7-zjgj.onrender.com';
 
-// ======================
 // Data Management
-// ======================
 document.addEventListener("DOMContentLoaded", function () {
   const token = sessionStorage.getItem('token');
   let userData = null;
@@ -1559,14 +1566,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!token) {
     alert('Please login first');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
     return;
   }
 
-  // ✅ CHANGE #1: Load referral data API
+  // Load referral data API
   async function loadReferralData() {
     try {
-      const res = await fetch(`${API_BASE}/api/referral/data`, {  // Uses API_BASE
+      const res = await fetch(`${API_BASE}/api/referral/data`, {
         headers: { 'Authorization': 'Bearer ' + token }
       });
 
@@ -1574,7 +1581,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (res.status === 401) {
           alert('Session expired. Please login again.');
           sessionStorage.removeItem('token');
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
           return;
         }
         throw new Error('Failed to load data');
@@ -1590,15 +1597,18 @@ document.addEventListener("DOMContentLoaded", function () {
       safeSetText('totalReferrals', data.referralCount || 0);
       safeSetText('referralCount', data.referrals?.length || 0);
 
+      // ✅ Calculate total earned in PKR
       const lastLevel = data.lastProcessedLevel || 0;
-      const totalEarned = rewardLevels
+      const totalEarnedUSD = rewardLevels
         .filter(l => l.level <= lastLevel)
         .reduce((sum, l) => sum + l.reward, 0);
-      safeSetText('totalEarned', totalEarned);
+      const totalEarnedPKR = convertToPKR(totalEarnedUSD);
+      safeSetText('totalEarned', formatPKR(totalEarnedPKR));
       safeSetText('currentLevel', lastLevel);
 
+      // ✅ Next reward in PKR
       const nextLevel = rewardLevels.find(l => l.level === lastLevel + 1);
-      if (nextLevel) safeSetText('nextReward', nextLevel.reward);
+      if (nextLevel) safeSetText('nextReward', formatPKR(nextLevel.rewardPKR));
 
       referralLink = `${window.location.origin}/register.html?ref=${data.referralCode}`;
       safeSetText('shareLink', referralLink);
@@ -1644,15 +1654,15 @@ document.addEventListener("DOMContentLoaded", function () {
     safeSetText('currentProgress', totalReferrals);
     safeSetText('targetReferrals', nextLevel.referrals);
     safeSetText('levelBadge', `Level ${nextLevel.level}`);
-    safeSetText('levelRewardAmount', `$${nextLevel.reward.toFixed(2)}`);
+    safeSetText('levelRewardAmount', `Rs. ${formatPKR(nextLevel.rewardPKR)}`);
     barEl && (barEl.style.width = progress + '%');
 
     if (totalReferrals >= nextLevel.referrals) {
-      claimBtn && (claimBtn.className = 'claim-btn active', claimBtn.innerHTML = `<span>🎁 Claim Level ${nextLevel.level} Reward ($${nextLevel.reward})</span>`, claimBtn.onclick = claimReward);
-      textEl && (textEl.textContent = `Level ${nextLevel.level} reward available! Click to claim $${nextLevel.reward}`);
+      claimBtn && (claimBtn.className = 'claim-btn active', claimBtn.innerHTML = `<span>🎁 Claim Level ${nextLevel.level} Reward (Rs. ${formatPKR(nextLevel.rewardPKR)})</span>`, claimBtn.onclick = claimReward);
+      textEl && (textEl.textContent = `Level ${nextLevel.level} reward available! Click to claim Rs. ${formatPKR(nextLevel.rewardPKR)}`);
     } else {
       claimBtn && (claimBtn.className = 'claim-btn locked', claimBtn.innerHTML = `<span>Need ${remaining} more referral${remaining !== 1 ? 's' : ''}</span>`, claimBtn.onclick = null);
-      textEl && (textEl.textContent = `Invite ${remaining} more friend${remaining !== 1 ? 's' : ''} to unlock Level ${nextLevel.level} ($${nextLevel.reward})`);
+      textEl && (textEl.textContent = `Invite ${remaining} more friend${remaining !== 1 ? 's' : ''} to unlock Level ${nextLevel.level} (Rs. ${formatPKR(nextLevel.rewardPKR)})`);
     }
   }
 
@@ -1680,7 +1690,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div class="level-details">
             <div class="level-target">Target: <strong>${level.referrals} referrals</strong></div>
-            <div class="level-reward-amount">$${level.reward}</div>
+            <div class="level-reward-amount">Rs. ${formatPKR(level.rewardPKR)}</div>
           </div>
         </div>
       `;
@@ -1724,7 +1734,7 @@ document.addEventListener("DOMContentLoaded", function () {
     listEl.innerHTML = html;
   }
 
-  // ✅ CHANGE #2: Claim reward API
+  // Claim reward API
   async function claimReward() {
     if (!confirm('Claim your reward? This will be added to your wallet instantly.')) return;
 
@@ -1732,7 +1742,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (claimBtn) claimBtn.disabled = true, claimBtn.className = 'claim-btn locked', claimBtn.innerHTML = '<span>Processing...</span>';
 
     try {
-      const res = await fetch(`${API_BASE}/api/referral/claim`, {  // Uses API_BASE
+      const res = await fetch(`${API_BASE}/api/referral/claim`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
       });
@@ -1741,7 +1751,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const data = await res.json();
       if (data.success) {
-        showToast(`${data.message} - $${data.rewardAmount} added to your wallet!`);
+        // ✅ Convert reward amount to PKR for display
+        const rewardPKR = convertToPKR(data.rewardAmount);
+        showToast(`${data.message} - Rs. ${formatPKR(rewardPKR)} added to your wallet!`);
         await loadReferralData();
       } else {
         showToast(data.message || 'Error claiming reward');
@@ -1773,6 +1785,17 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.appendChild(toast);
     setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
   }
+
+  document.getElementById('shareLink').addEventListener('click', function() {
+    const link = this.textContent;
+    navigator.clipboard.writeText(link)
+        .then(() => {
+            showToast('Referral link copied!');
+        })
+        .catch(() => {
+            showToast('Failed to copy link');
+        });
+  });
 
   // Share functions
   window.shareWhatsApp = function() {

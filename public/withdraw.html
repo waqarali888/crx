@@ -313,6 +313,7 @@ body {
   font-weight: 500;
 }
 
+
 .refresh-btn {
   width: 36px;
   height: 36px;
@@ -335,8 +336,22 @@ body {
   width: 18px;
   height: 18px;
   stroke: var(--success);
+  transition: transform 0.3s ease;
 }
 
+/* 👇 Click rotation animation */
+.rotating svg {
+  animation: spin 0.8s linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .balance-amount {
   font-size: 42px;
   font-weight: 700;
@@ -1034,6 +1049,7 @@ body {
     margin-bottom: 64px;
   }
 }
+
 </style>
 </head>
 <body>
@@ -1043,7 +1059,7 @@ body {
   <div class="sidebar-logo">
     <div class="sidebar-logo-content">
       <div class="logo">
-        <img src="../images/earn.jpeg" alt="CRX Logo">
+        <img src="./images/earn.jpeg" alt="CRX Logo">
       </div>
       <div class="brand-name">CRX</div>
     </div>
@@ -1107,7 +1123,7 @@ body {
     <div class="header-content">
       <div class="logo-section">
         <div class="logo">
-          <img src="../images/earn.jpeg" alt="CRX Logo">
+          <img src="./images/earn.jpeg" alt="CRX Logo">
         </div>
         <div class="brand-name">CRX</div>
       </div>
@@ -1264,20 +1280,26 @@ body {
   </div>
 
   <!-- Main Content -->
-  <div id="mainContent" class="hidden">
-    <!-- Wallet Balance -->
-    <div class="wallet-balance-card">
-      <div class="balance-header">
-        <div class="balance-label">Available Balance</div>
-        <button class="refresh-btn" onclick="loadWallet()">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="balance-amount">$<span id="walletAmount">0.00</span></div>
-      <div class="balance-subtitle">Ready for withdrawal</div>
+<div id="mainContent" class="hidden">
+  <!-- Wallet Balance -->
+  <div class="wallet-balance-card">
+    <div class="balance-header">
+      <div class="balance-label">Available Balance</div>
+
+      <!-- 🔁 Refresh Button -->
+      <button class="refresh-btn" id="refreshBtn" title="Refresh Balance">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 4v6h6M20 20v-6h-6M4 10a8 8 0 0113.657-5.657L20 6M20 14a8 8 0 01-13.657 5.657L4 18">
+          </path>
+        </svg>
+      </button>
     </div>
+
+    <div class="balance-amount">Rs. <span id="walletAmount">0.00</span></div>
+    <div class="balance-subtitle">Ready for withdrawal</div>
+  </div>
+</div>
 
   <!-- Withdrawal Rules -->
   <div class="info-card">
@@ -1286,7 +1308,7 @@ body {
       <h3>Withdrawal Rules</h3>
     </div>
     <ul class="info-list">
-      <li>Minimum withdrawal amount is $5 </li>
+      <li>Minimum withdrawal amount is Rs. 1000 </li>
       <li>30% processing fee applies to all withdrawals</li>
       <li>Processing time: 12-24 hours after approval</li>
       <li>Ensure your account details are correct</li>
@@ -1307,7 +1329,7 @@ body {
     <form id="withdrawForm">
       <div class="form-group">
         <label>Withdrawal Amount <span class="required">*</span></label>
-        <input type="number" step="0.01" id="amount" placeholder="Enter amount (minimum $5)" required>
+        <input type="number" step="0.01" id="amount" placeholder="Enter amount (minimum 1000 Rs.)" required>
         <div class="fee-info" id="feeInfo"></div>
       </div>
 
@@ -1393,7 +1415,36 @@ body {
   </div>
 </div>
 
-<script>// Theme Toggle
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const refreshBtn = document.getElementById('refreshBtn');
+
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', async () => {
+      // 🔄 Start rotation animation
+      refreshBtn.classList.add('rotating');
+
+      // Remove animation after it finishes
+      setTimeout(() => {
+        refreshBtn.classList.remove('rotating');
+      }, 800);
+
+      // 🔃 Actual refresh logic (wallet + tasks)
+      console.log('🔁 Refreshing wallet and tasks...');
+      if (typeof loadWallet === 'function') await loadWallet();
+      if (typeof loadTasks === 'function') await loadTasks();
+
+      // ✅ Toast optional (if function available)
+      if (typeof showToast === 'function') {
+        showToast('Wallet refreshed successfully!', 'success');
+      }
+    });
+  } else {
+    console.warn('❌ Refresh button not found!');
+  }
+});
+
+// Theme Toggle
 function toggleTheme() {
   const html = document.documentElement;
   const currentTheme = html.getAttribute('data-theme');
@@ -1426,7 +1477,7 @@ function getToken() {
 const token = getToken();
 if (!token) {
   alert('Please login first');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 }
 
 let allRequests = [];
@@ -1435,19 +1486,19 @@ let allRequests = [];
 async function loadWallet() {
   const token = getToken();
   if (!token) {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
     return;
   }
 
   try {
-    const res = await fetch('https://crx-auth.onrender.com/api/auth/dashboard', {  // 👈 CHANGED
+    const res = await fetch('https://crx-7-zjgj.onrender.com/api/auth/dashboard', {
       headers: { 'Authorization': 'Bearer ' + token }
     });
 
     if (res.status === 401) {
       sessionStorage.removeItem('token');
       localStorage.removeItem('token');
-      window.location.href = 'login.html';
+      window.location.href = 'index.html';
       return;
     }
 
@@ -1472,7 +1523,7 @@ async function loadRequests() {
   if (!token) return;
 
   try {
-    const res = await fetch('https://crx-auth.onrender.com/api/withdraw/history', {  // 👈 CHANGED
+    const res = await fetch('https://crx-7-zjgj.onrender.com/api/withdraw/history', {
       headers: { 'Authorization': 'Bearer ' + token }
     });
 
@@ -1516,17 +1567,17 @@ function renderRequests() {
     container.innerHTML += `
       <div class="request-card">
         <div class="request-header">
-          <div class="request-amount">${amount}$</div>
+          <div class="request-amount">${amount} Rs.</div>
           <span class="status-badge ${statusClass}">${req.status}</span>
         </div>
         <div class="request-details">
           <div class="detail-item">
             <div class="detail-label">Processing Fee</div>
-            <div class="detail-value">${fee}$</div>
+            <div class="detail-value">${fee} Rs.</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">Final Amount</div>
-            <div class="detail-value">${finalAmount}$</div>
+            <div class="detail-value">${finalAmount} Rs.</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">Account Number</div>
@@ -1562,9 +1613,9 @@ document.getElementById('amount').addEventListener('input', function() {
 
   feeInfo.style.display = 'block';
 
-  if (val < 5) {
+  if (val < 1000) {
     feeInfo.className = 'fee-info error';
-    feeInfo.innerHTML = '❌ Minimum withdrawal amount is $5';
+    feeInfo.innerHTML = '❌ Minimum withdrawal amount is 1000 Rs.';
   } else {
     const fee = (val * 0.3).toFixed(2);
     const final = (val - fee).toFixed(2);
@@ -1580,7 +1631,7 @@ document.getElementById('withdrawForm').addEventListener('submit', async functio
   const token = getToken();
   if (!token) {
     alert('Session expired. Please log in again.');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
     return;
   }
 
@@ -1594,8 +1645,8 @@ document.getElementById('withdrawForm').addEventListener('submit', async functio
     return;
   }
 
-  if (amount < 5) {
-    alert('❌ Minimum withdrawal amount is $5');
+  if (amount < 1000) {
+    alert('❌ Minimum withdrawal amount is 1000 Rs.');
     return;
   }
 
@@ -1604,7 +1655,7 @@ document.getElementById('withdrawForm').addEventListener('submit', async functio
   submitBtn.textContent = 'Processing...';
 
   try {
-    const res = await fetch('https://crx-auth.onrender.com/api/withdraw', {  // 👈 CHANGED
+    const res = await fetch('https://crx-7-zjgj.onrender.com/api/withdraw', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1143,7 +1143,7 @@ body {
 
       <div class="header-actions">
         <div class="wallet-badge">
-          💰<span id="headerWallet">0.00</span>$
+          💰<span id="headerWallet">0.00</span>Rs.
         </div>
         <button class="theme-toggle" onclick="toggleTheme()">
           <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1311,9 +1311,8 @@ body {
 <!-- Toast Notification -->
 <div class="toast" id="toast">
   <span id="toastMessage"></span>
-</div>
-<script>// ✅ CHANGE #1: Tasks API Base URL (Line 2)
-const API_BASE = 'https://crx-auth.onrender.com/api/user/tasks';  // 👈 CHANGED
+</div><script>// ✅ CHANGE #1: Tasks API Base URL (Line 2)
+const API_BASE = 'https://crx-7-zjgj.onrender.com/api/user/tasks';  // 👈 CHANGED
 
 const token = sessionStorage.getItem('token');
 let tasks = [];
@@ -1370,7 +1369,7 @@ function showToast(message, type = 'success') {
 if (!token) {
   showToast('Please login to continue', 'error');
   setTimeout(() => {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   }, 1500);
 }
 
@@ -1386,7 +1385,7 @@ async function loadTasks() {
         showToast('Session expired. Please login again', 'error');
         setTimeout(() => {
           sessionStorage.removeItem('token');
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
         }, 2000);
         return;
       }
@@ -1441,7 +1440,7 @@ async function loadTasks() {
 // Load Wallet
 async function loadWallet() {
   try {
-    const res = await fetch('https://crx-auth.onrender.com/api/auth/dashboard', {  // 👈 CHANGED
+    const res = await fetch('https://crx-7-zjgj.onrender.com/api/auth/dashboard', {  // 👈 CHANGED
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const data = await res.json();
@@ -1664,7 +1663,7 @@ function renderCollectSection() {
         <div class="collect-icon">✅</div>
         <h3>Profit Collected</h3>
         <p>You have already collected today's profit</p>
-        <div class="profit-amount">$${profit.toFixed(2)}</div>
+  
         <button class="btn btn-primary disabled" disabled>
           <span>✓</span>
           <span>Already Collected</span>
@@ -1677,7 +1676,7 @@ function renderCollectSection() {
         <div class="collect-icon">🎁</div>
         <h3>All Tasks Completed!</h3>
         <p>Congratulations! Collect your daily profit now</p>
-        <div class="profit-amount">$${profit.toFixed(2)}</div>
+     
         <button class="btn btn-primary" onclick="collectProfit()">
           <span>🎁</span>
           <span>Collect Profit Now</span>
@@ -1690,7 +1689,7 @@ function renderCollectSection() {
         <div class="collect-icon">🔒</div>
         <h3>Tasks In Progress</h3>
         <p>Complete all ${total} videos to unlock your daily profit</p>
-        <div class="profit-amount">$${profit.toFixed(2)}</div>
+ 
         <button class="btn btn-primary disabled" disabled>
           <span>🔒</span>
           <span>Locked (${completed}/${total} Videos)</span>
@@ -1903,7 +1902,7 @@ async function collectProfit() {
 
     const data = await res.json();
     if (data.success) {
-      showToast(`✅ Collected: $${data.added}`, 'success');
+      showToast(`✅ Collected: Rs.${data.added}`, 'success');
       await loadTasks();
       await loadWallet();
     } else {
