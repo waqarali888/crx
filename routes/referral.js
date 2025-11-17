@@ -5,12 +5,12 @@ const auth = require('../middleware/authMiddleware');
 
 // Reward levels configuration
 const rewardLevels = [
-  { level: 1, referrals: 3, reward: 1 },
-  { level: 2, referrals: 6, reward: 2 },
-  { level: 3, referrals: 9, reward: 3 },
-  { level: 4, referrals: 12, reward: 4 },
-  { level: 5, referrals: 50, reward: 13 },
-  { level: 6, referrals: 100, reward: 25 }
+  { level: 1, referrals: 3, reward: 290 },
+  { level: 2, referrals: 6, reward: 580 },
+  { level: 3, referrals: 9, reward: 870 },
+  { level: 4, referrals: 12, reward: 1160 },
+  { level: 5, referrals: 50, reward: 3770 },
+  { level: 6, referrals: 100, reward: 7250 }
 ];
 
 // Get referral data for logged-in user
